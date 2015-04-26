@@ -215,12 +215,36 @@ public class JJAgent extends Agent {
 
     private class Board {
     
-        ArrayList<ArrayList<BoardTile>> board = new ArrayList<ArrayList<BoardTile>>();
+        ArrayList<ArrayList<BoardTile>> board;
         boolean complete = false;
 
-        void makeBigger() {
-            
+        Board() {
+            board = new ArrayList<ArrayList<BoardTile>>(3);
+            for (ArrayList<BoardTile> : board) {
+                
+            }
         }
+
+        void match() {
+        
+        }
+
+        void addRow(int row) {
+            board.add()
+        }
+
+        void addColumn(int column) {
+        
+        }
+
+        void deleteRow(int row) {
+        
+        }
+
+        void deleteColumn(int column) {
+        
+        }
+
         void completed() {complete = true;}
         boolean isComplete() {return complete;}
 
