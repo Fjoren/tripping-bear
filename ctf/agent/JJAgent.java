@@ -67,12 +67,209 @@ public class JJAgent extends Agent {
 
     }
 
+<<<<<<< Updated upstream
     private class Board {
 
         private class Coordinate {
             int x; //+ from left, - from right
             int y; //+ from bottom, - from top
         }
+=======
+    //if tbe map is unknown, just go towards the goal and add to the map
+    public int towardsGoal(AgentEnvironment inEnvironment){
+        // booleans describing direction of goal
+        // goal is either enemy flag, or our base
+        boolean goalNorth;
+        boolean goalSouth;
+        boolean goalEast;
+        boolean goalWest;
+
+        
+        if( !inEnvironment.hasFlag() ) {
+            // make goal the enemy flag
+            goalNorth = inEnvironment.isFlagNorth( 
+                inEnvironment.ENEMY_TEAM, false );
+        
+            goalSouth = inEnvironment.isFlagSouth( 
+                inEnvironment.ENEMY_TEAM, false );
+        
+            goalEast = inEnvironment.isFlagEast( 
+                inEnvironment.ENEMY_TEAM, false );
+        
+            goalWest = inEnvironment.isFlagWest( 
+                inEnvironment.ENEMY_TEAM, false );
+            }
+        else {
+            // we have enemy flag.
+            // make goal our base
+            goalNorth = inEnvironment.isBaseNorth( 
+                inEnvironment.OUR_TEAM, false );
+        
+            goalSouth = inEnvironment.isBaseSouth( 
+                inEnvironment.OUR_TEAM, false );
+        
+            goalEast = inEnvironment.isBaseEast( 
+                inEnvironment.OUR_TEAM, false );
+        
+            goalWest = inEnvironment.isBaseWest( 
+                inEnvironment.OUR_TEAM, false );
+            }
+        
+        // now we have direction booleans for our goal  
+        
+        // check for immediate obstacles blocking our path      
+        boolean obstNorth = inEnvironment.isObstacleNorthImmediate() && ;
+        boolean obstSouth = inEnvironment.isObstacleSouthImmediate() && hasBomb && hasAgent || hasFlag;
+        boolean obstEast = inEnvironment.isObstacleEastImmediate() && hasBomb && hasAgent || hasFlag; 
+        boolean obstWest = inEnvironment.isObstacleWestImmediate();
+        
+        board.addInformation(obstNorth, obstSouth, obstWest, obstEast)
+            
+        // if goal both north and east
+        if( goalNorth && goalEast ) {
+            // pick north or east for move with 50/50 chance
+            if( !obstEast ) {   
+                return AgentAction.MOVE_EAST;
+                }
+            else if( !obstNorth ) {
+                return AgentAction.MOVE_NORTH;
+                }
+            else if(!obstWest){
+                return AgentAction.MOVE_WEST;
+                }
+            else if(!obstSouth){
+                return AgentAction.MOVE_SOUTH;
+            }
+        }
+            
+        // if goal both north and west  
+        if( goalNorth && goalWest ) {
+            if( !obstWest ) {   
+                return AgentAction.MOVE_WEST;
+                }
+            else if( !obstNorth ) {  
+                return AgentAction.MOVE_NORTH;
+                } 
+            else if(!obstEast){
+                return AgentAction.MOVE_EAST;
+                }
+            else if(!obstSouth){
+                return AgentAction.MOVE_SOUTH;
+                }
+        }
+        
+        // do same for southeast and southwest as for north versions    
+        if( goalSouth && goalEast ) {
+            if( !obstEast ) {
+                return AgentAction.MOVE_EAST;
+                }
+            else if( !obstSouth ) {
+                return AgentAction.MOVE_SOUTH;
+                }
+            else if(!obstWest){
+                return AgentAction.MOVE_WEST;
+                }
+            else if(!obstNorth){
+                return AgentAction.MOVE_NORTH;
+                }
+        }
+                
+        if( goalSouth && goalWest) {
+            if( !obstWest ) {
+                return AgentAction.MOVE_WEST;
+                }
+            else if( !obstSouth ) {
+                return AgentAction.MOVE_SOUTH;
+                }
+            else if(!obstEast){
+                return AgentAction.MOVE_EAST;
+                }
+            else if(!obstNorth){
+                return AgentAction.MOVE_NORTH;
+                }
+        }
+
+                    // if the goal is north only, and we're not blocked
+        if( goalNorth) {
+            if(!obstNorth){
+                return AgentAction.MOVE_NORTH;
+                }
+            else if(!obstEast){
+                return AgentAction.MOVE_EAST;
+                }
+            else if(!obstWest){
+                return AgentAction.MOVE_WEST;
+                }
+            else if(!obstSouth){
+                return AgentAction.MOVE_SOUTH;   
+                }
+        }
+
+
+        // if the goal is east only, and we're not blocked
+        if( goalEast) {
+            if( !obstEast ) {   
+                return AgentAction.MOVE_EAST;
+                }
+            else if( !obstNorth ) {
+                return AgentAction.MOVE_NORTH;
+                }
+            else if(!obstSouth){
+                return AgentAction.MOVE_SOUTH;
+                }
+            else if(!obstWest){
+                return AgentAction.MOVE_WEST;
+                }
+        }
+        
+        // if the goal is west only, and we're not blocked  
+        if( goalWest) {
+            if( !obstWest ) {
+                return AgentAction.MOVE_WEST;
+                }
+            else if(!obstSouth ) {
+                return AgentAction.MOVE_SOUTH;
+                }
+            else if(!obstNorth){
+                return AgentAction.MOVE_NORTH;
+                }
+            else if(!obstEast){
+                return AgentAction.MOVE_EAST;
+                }
+        }   
+
+        // if the goal is south only, and we're not blocked
+        if( goalSouth) {
+            // move south
+            if(!obstSouth){
+                return AgentAction.MOVE_SOUTH;
+                }
+            else if(!obstEast){
+                return AgentAction.MOVE_EAST;
+                }
+            else if(!obstWest){
+                return AgentAction.MOVE_WEST;
+                }
+            else if(!obstNorth){
+                return AgentAction.MOVE_NORTH;   
+            }
+            else()
+        }
+
+
+    }
+        
+
+    //tile on board, stores any information you want it to have
+    private class BoardTile {
+    
+        int hasBomb;
+        boolean blocked;
+        int hasAgent;
+        boolean unknown;
+    
+    }
+>>>>>>> Stashed changes
 
         private class BoardTile {
             enum Flag = {}
@@ -97,6 +294,9 @@ public class JJAgent extends Agent {
 
         void completed() {complete = true;}
         boolean isComplete() {return complete;}
+
+        void addInformation(boolean north, boolean south, boolean west, boolean east){
+        }
 
     }
 
