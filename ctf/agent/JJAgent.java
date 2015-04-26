@@ -30,7 +30,8 @@ public class JJAgent extends Agent {
     int bomb = AgentAction.PLANT_HYPERDEADLY_PROXIMITY_MINE;
     int nothing = AgentAction.DO_NOTHING;
     int step = -1;
-    
+    boolean bombLastMove = false;
+    int move;
     //top one gets size
     //both are constantly mapping (updates the map) 
     //
@@ -64,33 +65,38 @@ public class JJAgent extends Agent {
             
         }   
         if(currentJobs.contains(Job.TOWARDSGOAL)) {
-            int move = towardsGoal(inEnvironment);  
-            
-            switch (move){
-                up:
-                    yDisplacement++;
-                break;
-                east:
-                    xDisplacement++;
-                break;
-                west:
-                    xDisplacement--;
-                break;
-                down:
-                    yDisplacement--;
-                break;
-                bomb:
-                break;
-                nothing:
-                break;
-
-            }
-            history.add(move);
-            
-            return move;
+            move = towardsGoal(inEnvironment);  
         }
-        step++;
-        return path[step];
+        switch (move){
+            up:
+                yDisplacement++;
+                break;
+            east:
+                xDisplacement++;
+                break;
+            west:
+                xDisplacement--;
+                break;
+            down:
+                yDisplacement--;
+                break;
+            bomb:
+                break;
+            nothing:
+                break;
+            }
+
+        if(move == bomb)
+            bombLastMove = true;
+        else
+            bombLastMove = false;
+            
+        history.add(move);
+            
+        return move;
+        
+    //    step++;
+    //    return path[step];
 
     }
 
