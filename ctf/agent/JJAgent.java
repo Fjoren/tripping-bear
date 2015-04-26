@@ -18,7 +18,7 @@ public class JJAgent extends Agent {
     //this instaniazies it 
     boolean firstMove = true;
     ArrayList<Job> currentJobs = new ArrayList<Job>();
-    ArrayList<AgentAction> history = new ArrayList<AgentAction>(); 
+    ArrayList<Integer> history = new ArrayList<Integer>(); 
     int counter = 0;
     int xDisplacement = 0;
     int yDisplacement = 0;
@@ -61,7 +61,7 @@ public class JJAgent extends Agent {
 
         //Final Jobs  
         if(currentJobs.contains(Job.TOWARDSGOAL)) {
-            move = towardsGoal(inEnvironment);  
+            move = towardsGoal(inEnvironment); 
         }
         if(currentJobs.contains(Job.RANDOM_MOVES)){
             move = random(inEnvironment);
@@ -92,9 +92,8 @@ public class JJAgent extends Agent {
             bombLastMove = true;
         else
             bombLastMove = false;
-            
-        history.add((AgentAction)move);
-            
+        
+        history.add(move);
         return move;
         
     //    step++;
