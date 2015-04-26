@@ -67,13 +67,13 @@ public class JJAgent extends Agent {
 
     }
 
-<<<<<<< Updated upstream
     private class Board {
 
         private class Coordinate {
             int x; //+ from left, - from right
             int y; //+ from bottom, - from top
         }
+<<<<<<< HEAD
 =======
     //if tbe map is unknown, just go towards the goal and add to the map
     public int towardsGoal(AgentEnvironment inEnvironment){
@@ -270,9 +270,11 @@ public class JJAgent extends Agent {
     
     }
 >>>>>>> Stashed changes
+=======
+>>>>>>> origin/master
 
         private class BoardTile {
-            enum Flag = {}
+            private enum Flag = {empty}
             Hashtable<Flag,boolean>
         }
     
@@ -288,15 +290,16 @@ public class JJAgent extends Agent {
         
         }
 
+        boolean hasBomb(int x, int y) {
+        
+        }
+
         void normalize() {
         
         }
 
         void completed() {complete = true;}
         boolean isComplete() {return complete;}
-
-        void addInformation(boolean north, boolean south, boolean west, boolean east){
-        }
 
     }
 
