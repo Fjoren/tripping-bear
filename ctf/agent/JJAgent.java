@@ -67,14 +67,6 @@ public class JJAgent extends Agent {
 
     }
 
-    private class Board {
-
-        private class Coordinate {
-            int x; //+ from left, - from right
-            int y; //+ from bottom, - from top
-        }
-<<<<<<< HEAD
-=======
     //if tbe map is unknown, just go towards the goal and add to the map
     public int towardsGoal(AgentEnvironment inEnvironment){
         // booleans describing direction of goal
@@ -259,23 +251,16 @@ public class JJAgent extends Agent {
 
     }
         
+    private class Board {
 
-    //tile on board, stores any information you want it to have
-    private class BoardTile {
-    
-        int hasBomb;
-        boolean blocked;
-        int hasAgent;
-        boolean unknown;
-    
-    }
->>>>>>> Stashed changes
-=======
->>>>>>> origin/master
+        private class Coordinate {
+            int x;
+            int y;
+        }
 
         private class BoardTile {
-            private enum Flag = {empty}
-            Hashtable<Flag,boolean>
+            private enum Flag {empty}
+            Hashtable<Flag,boolean> flags;
         }
     
         Hashtable<Coordinate,BoardTile> board;
@@ -285,6 +270,8 @@ public class JJAgent extends Agent {
         Board() {
             board = new Hashtable<Coordinate,BoardTile>();
         }
+
+        void addBoard()
 
         void match() {
         
