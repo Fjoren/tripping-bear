@@ -23,11 +23,12 @@ public class JJAgent extends Agent {
     int xDisplacement = 0;
     int yDisplacement = 0;
     int[] path;
-    int left = AgentAction.MOVE_WEST;
-    int right = AgentAction.MOVE_EAST;
-    int up = AgentAction.MOVE_NORTH;
-    int down = AgentAction.MOVE_SOUTH;
+    int left,west = AgentAction.MOVE_WEST;
+    int right,east = AgentAction.MOVE_EAST;
+    int up, north = AgentAction.MOVE_NORTH;
+    int down, south = AgentAction.MOVE_SOUTH;
     int bomb = AgentAction.PLANT_HYPERDEADLY_PROXIMITY_MINE;
+    int nothing = AgentAction.DO_NOTHING;
     int step = -1;
     
     //top one gets size
@@ -63,23 +64,36 @@ public class JJAgent extends Agent {
             
         }   
         if(currentJobs.contains(Job.TOWARDSGOAL)) {
-            towardsGoal()  
+            int move = towardsGoal(inEnvironment);  
+            
+            switch (move){
+                up:
+                    yDisplacement++;
+                break;
+                east:
+                    xDisplacement++;
+                break;
+                west:
+                    xDisplacement--;
+                break;
+                down:
+                    yDisplacement--;
+                break;
+                bomb:
+                break;
+                nothing:
+                break;
+
+            }
+            history.add(move);
+            
+            return move;
         }
         step++;
         return path[step];
 
     }
 
-<<<<<<< HEAD
-    private class Board {
-
-        private class Coordinate {
-            int x; //+ from left, - from right
-            int y; //+ from bottom, - from top
-        }
-    }
-=======
->>>>>>> origin/master
     //if tbe map is unknown, just go towards the goal and add to the map
     public int towardsGoal(AgentEnvironment inEnvironment){
         // booleans describing direction of goal
@@ -146,6 +160,9 @@ public class JJAgent extends Agent {
             else if(!obstSouth){
                 return AgentAction.MOVE_SOUTH;
             }
+            else{
+                return bomb;    
+            }
         }
             
         // if goal both north and west  
@@ -162,6 +179,9 @@ public class JJAgent extends Agent {
             else if(!obstSouth){
                 return AgentAction.MOVE_SOUTH;
                 }
+            else{
+                return bomb;    
+            }
         }
         
         // do same for southeast and southwest as for north versions    
@@ -178,6 +198,9 @@ public class JJAgent extends Agent {
             else if(!obstNorth){
                 return AgentAction.MOVE_NORTH;
                 }
+            else{
+                return bomb;    
+            }
         }
                 
         if( goalSouth && goalWest) {
@@ -193,6 +216,9 @@ public class JJAgent extends Agent {
             else if(!obstNorth){
                 return AgentAction.MOVE_NORTH;
                 }
+            else{
+                return bomb;    
+            }
         }
 
                     // if the goal is north only, and we're not blocked
@@ -209,6 +235,9 @@ public class JJAgent extends Agent {
             else if(!obstSouth){
                 return AgentAction.MOVE_SOUTH;   
                 }
+            else{
+                return bomb;    
+            }
         }
 
 
@@ -226,6 +255,9 @@ public class JJAgent extends Agent {
             else if(!obstWest){
                 return AgentAction.MOVE_WEST;
                 }
+            else{
+                return bomb;    
+            }
         }
         
         // if the goal is west only, and we're not blocked  
@@ -242,6 +274,9 @@ public class JJAgent extends Agent {
             else if(!obstEast){
                 return AgentAction.MOVE_EAST;
                 }
+            else{
+                return bomb;    
+            }
         }   
 
         // if the goal is south only, and we're not blocked
@@ -259,52 +294,10 @@ public class JJAgent extends Agent {
             else if(!obstNorth){
                 return AgentAction.MOVE_NORTH;   
             }
-            else()
+            else{
+                return bomb;    
+            }
         }
     }
         
-
-<<<<<<< HEAD
-    //tile on board, stores any information you want it to have
-    private class BoardTile {
-    
-        int hasBomb;
-        boolean blocked;
-        int hasAgent;
-        boolean unknown;
-        boolean mightHaveAgent;
-        boolean mightHaveBomb;
-
-        private class BoardTile {
-            private enum Flag = {empty}
-            Hashtable<Flag,boolean>
-        }
-    
-        Hashtable<Coordinate,BoardTile> board;
-        int size = -1;
-        boolean complete = false;
-
-        Board() {
-            board = new Hashtable<Coordinate,BoardTile>();
-        }
-
-        void match() {
-        
-        }
-
-        boolean hasBomb(int x, int y) {
-        
-        }
-
-        void normalize() {
-        
-        }
-
-        void completed() {complete = true;}
-        boolean isComplete() {return complete;}
-
-    }
-
-=======
->>>>>>> origin/master
 }
