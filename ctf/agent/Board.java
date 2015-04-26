@@ -251,5 +251,43 @@ public class JJAgent extends Agent {
 
     }
         
+    private class Board {
+
+        private class Coordinate {
+            int x;
+            int y;
+        }
+
+        private class BoardTile {
+            private enum Flag {empty}
+            Hashtable<Flag,boolean> flags;
+        }
+    
+        Hashtable<Coordinate,BoardTile> board;
+        int size = -1;
+        boolean complete = false;
+
+        Board() {
+            board = new Hashtable<Coordinate,BoardTile>();
+        }
+
+        void addBoard()
+
+        void match() {
+        
+        }
+
+        boolean hasBomb(int x, int y) {
+        
+        }
+
+        void normalize() {
+        
+        }
+
+        void completed() {complete = true;}
+        boolean isComplete() {return complete;}
+
+    }
 
 }
