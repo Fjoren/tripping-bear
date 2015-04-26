@@ -2,6 +2,7 @@ package ctf.agent;
 
 import ctf.common.AgentEnvironment;
 import ctf.agent.Agent;
+import java.util.ArrayList;
 
 import ctf.common.AgentAction;
 //this is the jobs you can have
@@ -26,9 +27,9 @@ public class JJAgent extends Agent {
     //
     public int getMove(AgentEnvironment inEnvironment) {
         if (firstMove) {
-            if (inEnvironment.isFlagSouth(AgentEnvironment.OUR_TEAM, false))
+            if (inEnvironment.isBaseSouth(AgentEnvironment.OUR_TEAM, false))
                 id = 0;
-            if (inEnvironment.isFlagNorth(AgentEnvironment.OUR_TEAM, false))
+            if (inEnvironment.isBaseNorth(AgentEnvironment.OUR_TEAM, false))
                 id = 1;
             if (id == 0) {
                 board = new Board();
@@ -40,12 +41,10 @@ public class JJAgent extends Agent {
                 currentJobs.add(Job.MAPPING);
             }
             firstMove = false;
-            if (nextId == 2)
-                nextId = 0;
         }
 
         //Non Final Jobs
-        if (currentJobs.includes(Job.MAPPING)) {
+        if (currentJobs.contains(Job.MAPPING)) {
             
         }
 
@@ -69,7 +68,9 @@ public class JJAgent extends Agent {
         ArrayList<ArrayList<BoardTile>> board = new ArrayList<ArrayList<BoardTile>>();
         boolean complete = false;
 
-        void makeBigger();
+        void makeBigger() {
+            
+        }
         void completed() {complete = true;}
         boolean isComplete() {return complete;}
 
