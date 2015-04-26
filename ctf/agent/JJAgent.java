@@ -37,19 +37,18 @@ public class JJAgent extends Agent {
     //
     public int getMove(AgentEnvironment inEnvironment) {
         if (firstMove) {
+            currentJobs.add(Job.MAPPING);
             if (inEnvironment.isBaseSouth(AgentEnvironment.OUR_TEAM, false))
                 id = 0;
             if (inEnvironment.isBaseNorth(AgentEnvironment.OUR_TEAM, false))
                 id = 1;
             if (id == 0) {
                 board = new Board();
-                currentJobs.add(Job.MAPPING);
                 currentJobs.add(Job.FIND_MAP_SIZE);
                 path = new int[] {left,down,down,down,down,right,bomb,bomb,left,bomb,down,bomb,down,bomb,down,bomb,down,left,bomb,left,bomb,left,bomb,left,bomb,down,bomb,right,bomb,right, bomb};
             }
             if (id == 1) {
                 currentJobs.add(Job.RANDOM_MOVES);
-                currentJobs.add(Job.MAPPING);
                 path = new int[] {left,left,left,left,left,left,left,left,left,up,up,up,up,down,down,down,down,right,right,right,right,right,right,right,right,right,up,up,up,up};
             }
             firstMove = false;
@@ -57,7 +56,7 @@ public class JJAgent extends Agent {
 
         //Non Final Jobs
         if (currentJobs.contains(Job.MAPPING)) {
-            
+            board.updateMap(inEnvironment);
         }
 
         //Final Jobs
@@ -66,6 +65,9 @@ public class JJAgent extends Agent {
         }   
         if(currentJobs.contains(Job.TOWARDSGOAL)) {
             move = towardsGoal(inEnvironment);  
+        }
+        if(currentJobs.contains(Job.RANDOM_MOVES)){
+            move = random(inEnvironment);
         }
         switch (move){
             up:
@@ -305,5 +307,24 @@ public class JJAgent extends Agent {
             }
         }
     }
+
+    public int random(AgentEnvironment inEnvironment){
+        double rand = Math.random();
+        
+        if( rand < 0.25 ) {
+            return AgentAction.MOVE_NORTH;
+            }
+        else if( rand < 0.5 ) {
+            return AgentAction.MOVE_SOUTH;
+            }
+        else if( rand < 0.75 ) {
+            return AgentAction.MOVE_EAST;
+            }
+        else {
+            return AgentAction.MOVE_WEST;
+            }   
+        }
+    }
+
         
 }
