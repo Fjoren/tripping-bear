@@ -7,7 +7,7 @@ import java.util.Hashtable;
 
 import ctf.common.AgentAction;
 //this is the jobs you can have
-enum Job {MAPPING, RANDOM_MOVES, FIND_MAP_SIZE, GUARDING, ATTACKING, TOWARDSGOAL}
+enum Job {MAPPING, RANDOM_MOVES, FIND_MAP_SIZE, GUARDING, ATTACKING}
 
 //Jeffrey Jennifer Agent
 public class JJAgent extends Agent {
@@ -60,26 +60,13 @@ public class JJAgent extends Agent {
 
         //Final Jobs
         if (id == 0) {
-            
-        }   
-        if(currentJobs.contains(Job.TOWARDSGOAL)) {
-            towardsGoal()  
-        }
+        
+        }    
         step++;
         return path[step];
 
     }
 
-<<<<<<< HEAD
-    private class Board {
-
-        private class Coordinate {
-            int x; //+ from left, - from right
-            int y; //+ from bottom, - from top
-        }
-    }
-=======
->>>>>>> origin/master
     //if tbe map is unknown, just go towards the goal and add to the map
     public int towardsGoal(AgentEnvironment inEnvironment){
         // booleans describing direction of goal
@@ -123,8 +110,7 @@ public class JJAgent extends Agent {
         // now we have direction booleans for our goal  
         
         // check for immediate obstacles blocking our path      
-            //needs to check if there is a bomb or agent there
-        boolean obstNorth = inEnvironment.isObstacleNorthImmediate();
+        boolean obstNorth = inEnvironment.isObstacleNorthImmediate() && ;
         boolean obstSouth = inEnvironment.isObstacleSouthImmediate();
         boolean obstEast = inEnvironment.isObstacleEastImmediate();
         boolean obstWest = inEnvironment.isObstacleWestImmediate();
@@ -261,23 +247,20 @@ public class JJAgent extends Agent {
             }
             else()
         }
+
+
     }
         
+    private class Board {
 
-<<<<<<< HEAD
-    //tile on board, stores any information you want it to have
-    private class BoardTile {
-    
-        int hasBomb;
-        boolean blocked;
-        int hasAgent;
-        boolean unknown;
-        boolean mightHaveAgent;
-        boolean mightHaveBomb;
+        private class Coordinate {
+            int x;
+            int y;
+        }
 
         private class BoardTile {
-            private enum Flag = {empty}
-            Hashtable<Flag,boolean>
+            private enum Flag {empty}
+            Hashtable<Flag,boolean> flags;
         }
     
         Hashtable<Coordinate,BoardTile> board;
@@ -287,6 +270,8 @@ public class JJAgent extends Agent {
         Board() {
             board = new Hashtable<Coordinate,BoardTile>();
         }
+
+        void addBoard()
 
         void match() {
         
@@ -305,6 +290,4 @@ public class JJAgent extends Agent {
 
     }
 
-=======
->>>>>>> origin/master
 }
