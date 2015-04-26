@@ -7,7 +7,7 @@ import java.util.Hashtable;
 
 import ctf.common.AgentAction;
 //this is the jobs you can have
-enum Job {MAPPING, RANDOM_MOVES, FIND_MAP_SIZE, GUARDING, ATTACKING}
+enum Job {MAPPING, RANDOM_MOVES, FIND_MAP_SIZE, GUARDING, ATTACKING, TOWARDSGOAL}
 
 //Jeffrey Jennifer Agent
 public class JJAgent extends Agent {
@@ -60,8 +60,11 @@ public class JJAgent extends Agent {
 
         //Final Jobs
         if (id == 0) {
-        
-        }    
+            
+        }   
+        if(currentJobs.contains(Job.TOWARDSGOAL)) {
+            towardsGoal()  
+        }
         step++;
         return path[step];
 
@@ -73,8 +76,7 @@ public class JJAgent extends Agent {
             int x; //+ from left, - from right
             int y; //+ from bottom, - from top
         }
-<<<<<<< HEAD
-=======
+    }
     //if tbe map is unknown, just go towards the goal and add to the map
     public int towardsGoal(AgentEnvironment inEnvironment){
         // booleans describing direction of goal
@@ -118,7 +120,8 @@ public class JJAgent extends Agent {
         // now we have direction booleans for our goal  
         
         // check for immediate obstacles blocking our path      
-        boolean obstNorth = inEnvironment.isObstacleNorthImmediate() && ;
+            //needs to check if there is a bomb or agent there
+        boolean obstNorth = inEnvironment.isObstacleNorthImmediate();
         boolean obstSouth = inEnvironment.isObstacleSouthImmediate();
         boolean obstEast = inEnvironment.isObstacleEastImmediate();
         boolean obstWest = inEnvironment.isObstacleWestImmediate();
@@ -255,8 +258,6 @@ public class JJAgent extends Agent {
             }
             else()
         }
-
-
     }
         
 
@@ -267,11 +268,8 @@ public class JJAgent extends Agent {
         boolean blocked;
         int hasAgent;
         boolean unknown;
-    
-    }
->>>>>>> Stashed changes
-=======
->>>>>>> origin/master
+        boolean mightHaveAgent;
+        boolean mightHaveBomb;
 
         private class BoardTile {
             private enum Flag = {empty}
