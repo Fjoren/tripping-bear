@@ -67,22 +67,24 @@ public class JJAgent extends Agent {
             move = random(inEnvironment);
         }
         switch (move){
-            up:
+            case 0:
                 yDisplacement++;
                 break;
-            east:
+            case 2:
                 xDisplacement++;
                 break;
-            west:
+            case 3:
                 xDisplacement--;
                 break;
-            down:
+            case 1:
                 yDisplacement--;
                 break;
-            bomb:
+            case 379037:
                 board.placeBomb(xDisplacement, yDisplacement);
                 break;
-            nothing:
+            case -1:
+                break;
+            default: 
                 break;
             }
 
@@ -91,7 +93,7 @@ public class JJAgent extends Agent {
         else
             bombLastMove = false;
             
-        history.add(move);
+        history.add((AgentAction)move);
             
         return move;
         
@@ -148,8 +150,6 @@ public class JJAgent extends Agent {
         boolean obstSouth = inEnvironment.isObstacleSouthImmediate();
         boolean obstEast = inEnvironment.isObstacleEastImmediate();
         boolean obstWest = inEnvironment.isObstacleWestImmediate();
-        
-        board.addInformation(obstNorth, obstSouth, obstWest, obstEast)
             
         // if goal both north and east
         if( goalNorth && goalEast ) {
@@ -322,7 +322,6 @@ public class JJAgent extends Agent {
             return AgentAction.MOVE_WEST;
             }   
         }
-    }
-
-        
 }
+
+    
