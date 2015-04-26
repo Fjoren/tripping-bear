@@ -23,14 +23,14 @@ public class JJAgent extends Agent {
     int xDisplacement = 0;
     int yDisplacement = 0;
     int[] path;
-    int left,west = AgentAction.MOVE_WEST;
-    int right,east = AgentAction.MOVE_EAST;
-    int up, north = AgentAction.MOVE_NORTH;
-    int down, south = AgentAction.MOVE_SOUTH;
-    int bomb = AgentAction.PLANT_HYPERDEADLY_PROXIMITY_MINE;
-    int nothing = AgentAction.DO_NOTHING;
+    int left,west = AgentAction.MOVE_WEST; //3
+    int right,east = AgentAction.MOVE_EAST; //2
+    int up, north = AgentAction.MOVE_NORTH; //0
+    int down, south = AgentAction.MOVE_SOUTH; //1
+    int bomb = AgentAction.PLANT_HYPERDEADLY_PROXIMITY_MINE; //379037
+    int nothing = AgentAction.DO_NOTHING; //-1
     int step = -1;
-    boolean bombLastMove = false;
+    boolean bombLastMove = false; 
     int move;
     //top one gets size
     //both are constantly mapping (updates the map) 
@@ -44,12 +44,12 @@ public class JJAgent extends Agent {
                 id = 1;
             if (id == 0) {
                 board = new Board();
-                currentJobs.add(Job.FIND_MAP_SIZE);
-                path = new int[] {left,down,down,down,down,right,bomb,bomb,left,bomb,down,bomb,down,bomb,down,bomb,down,left,bomb,left,bomb,left,bomb,left,bomb,down,bomb,right,bomb,right, bomb};
+                currentJobs.add(Job.TOWARDSGOAL);
+                //path = new int[] {left,down,down,down,down,right,bomb,bomb,left,bomb,down,bomb,down,bomb,down,bomb,down,left,bomb,left,bomb,left,bomb,left,bomb,down,bomb,right,bomb,right, bomb};
             }
             if (id == 1) {
-                currentJobs.add(Job.RANDOM_MOVES);
-                path = new int[] {left,left,left,left,left,left,left,left,left,up,up,up,up,down,down,down,down,right,right,right,right,right,right,right,right,right,up,up,up,up};
+                currentJobs.add(Job.TOWARDSGOAL);
+                //path = new int[] {left,left,left,left,left,left,left,left,left,up,up,up,up,down,down,down,down,right,right,right,right,right,right,right,right,right,up,up,up,up};
             }
             firstMove = false;
         }
@@ -59,10 +59,7 @@ public class JJAgent extends Agent {
             board.updateMap(inEnvironment);
         }
 
-        //Final Jobs
-        if (id == 0) {
-            
-        }   
+        //Final Jobs  
         if(currentJobs.contains(Job.TOWARDSGOAL)) {
             move = towardsGoal(inEnvironment);  
         }
@@ -83,6 +80,7 @@ public class JJAgent extends Agent {
                 yDisplacement--;
                 break;
             bomb:
+                board.placeBomb(xDisplacement, yDisplacement);
                 break;
             nothing:
                 break;
