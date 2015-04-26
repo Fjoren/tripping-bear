@@ -119,8 +119,8 @@ public class JJAgent extends Agent {
         
         // check for immediate obstacles blocking our path      
         boolean obstNorth = inEnvironment.isObstacleNorthImmediate() && ;
-        boolean obstSouth = inEnvironment.isObstacleSouthImmediate() && hasBomb && hasAgent || hasFlag;
-        boolean obstEast = inEnvironment.isObstacleEastImmediate() && hasBomb && hasAgent || hasFlag; 
+        boolean obstSouth = inEnvironment.isObstacleSouthImmediate();
+        boolean obstEast = inEnvironment.isObstacleEastImmediate();
         boolean obstWest = inEnvironment.isObstacleWestImmediate();
         
         board.addInformation(obstNorth, obstSouth, obstWest, obstEast)
