@@ -288,6 +288,10 @@ public class JJAgent extends Agent {
         
         }
 
+        boolean hasBomb(int x, int y) {
+        
+        }
+
         void normalize() {
         
         }
