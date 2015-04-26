@@ -17,7 +17,7 @@ private class Board {
             y = _y;
         }
         public boolean equals(Object o) {
-            if (x instanceof Coordinate && x == o.x && y = o.y)
+            if (x instanceof Coordinate && x == (Coordinate)o.x && y = (Coordinate)o.y)
                 return true;
             else
                 return false;
@@ -25,13 +25,22 @@ private class Board {
     }
 
     private class BoardTile {
-        private enum Flag {empty,baseSouth,baseNorth}
-        Hashtable<Flag,boolean> flags;
+        Hashtable<String,boolean> flags;
 
         BoardTile(Hashtable<String, boolean> options) {
-            flags = new Hashtable<Flag, boolean>();
-            if (options.isEmpty())
-                flags.put(empty,true);
+            flags = new Hashtable<String, boolean>();
+            update(options);
+        }
+
+        BoardTile() {
+            flags = new Hashtable<String,boolean>();
+        }
+
+        void update(HashTable<String,boolean> options) {
+            for (Enumeration<E> e = options.keys(); e.hasMoreElements;) {
+                Object temp = e.nextElement();
+                flags.put((String)temp,options.get((String)temp));
+            }
         }
     }
 
@@ -47,7 +56,36 @@ private class Board {
         board.put(new Coordinate(x,y),new BoardTile(hash));
     }
 
+    void addBoardTile(int x, int y, BoardTile tile) {
+        board.put(new Coordinate(x,y),tile);
+    }
+
+    void addBoardTile(int x, int y) {
+        board.put(new Coordinate(x,y),new BoardTile());
+    }
+
     void updateMap(int x, int y, AgentEnvironment env) {
+        BoardTile current = board.get(new Coordinate(x,y));
+        //Shouldn't ever occur
+        if (current == null) {
+            board.addBoardTile(x,y,new BoardTile());
+        }
+        //Check update current tile
+        Hashtable<String,boolean> upd = new Hashtable<String,boolean>();
+        if (env.isBaseNorth(env.OUR_TEAM,false))
+            upd.put("baseNorth",true);
+        if (env.isBaseSouth(env.OUR_TEAM,true))
+            upd.put("baseSouth",true);
+        current.update(upd);
+        //Add surrounding tiles
+        upd.clear();
+        //North
+        if (board.get(new Coordinate(x,y+1)) == null)
+            board.addBoardTile(x,y+1);
+        if (env.)
+    }
+
+    void placeBomb(int x, int y) {
         
     }
 
