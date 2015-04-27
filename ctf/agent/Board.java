@@ -81,6 +81,7 @@ public class Board {
     }
 
     void updateMap(int x, int y, AgentEnvironment env) {
+        System.out.println(" " + x +" " + y);
         BoardTile current = board.get(new Coordinate(x,y));
         //Check update current tile
         Hashtable<String,Boolean> upd = new Hashtable<String,Boolean>();
