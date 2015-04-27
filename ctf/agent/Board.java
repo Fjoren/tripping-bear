@@ -86,6 +86,16 @@ public class Board {
         board.put(new Coordinate(x,y),new BoardTile());
     }
 
+    void setDeadEnd(int x, int y) {
+        Hashtable<String,Boolean> tmp = new Hashtable<String,Boolean>();
+        tmp.put("deadEnd",true);
+        board.get(new Coordinate(x,y)).update(tmp);
+    }
+
+    boolean isDeadEnd(int x, int y) {
+        return board.get(new Coordinate(x,y)).deadEnd();
+    }
+
     void updateMap(int x, int y, AgentEnvironment env) {
         System.out.println(" " + x +" " + y);
         int counter = 0;
