@@ -44,7 +44,11 @@ public class JJAgent extends Agent {
             if (inEnvironment.isBaseSouth(ours, false)) {
                 id = 0;
                 yDisplacement = -2;
+<<<<<<< HEAD
                 currentJobs.add(Job.TOWARDSGOAL);
+=======
+                board = new Board();
+>>>>>>> origin/master
             }
             else{
                 id = 1;
@@ -414,7 +418,10 @@ public class JJAgent extends Agent {
         return nothing;
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
     // //last element in array list
     // public int getLastArrayList(ArrayList<Integer> arrayList){
     //     if (arrayList != null && !arrayList.isEmpty()) {
@@ -422,7 +429,10 @@ public class JJAgent extends Agent {
     //     }
     //     return 0;
     // }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 
 }
 
