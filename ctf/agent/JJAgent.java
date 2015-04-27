@@ -376,9 +376,7 @@ public class JJAgent extends Agent {
                     return west;
             }
         }
-        else{
-            return nothing;
-        }
+        return nothing;
     }
 
 }
