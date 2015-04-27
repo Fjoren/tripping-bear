@@ -14,6 +14,7 @@ enum Label {NORTH, SOUTH}
 public class JJAgent extends Agent {
     
     static Board board = new Board();
+    int moveCounter = 0;
     //which one is which
     Label id;
     //this instaniazies it 
@@ -40,6 +41,8 @@ public class JJAgent extends Agent {
     //both are constantly mapping (updates the map) 
     //
     public int getMove(AgentEnvironment inEnvironment) {
+        moveCounter++;
+        System.out.println(moveCounter);
         if (firstMove) {
             currentJobs.add(Job.MAPPING);
             if (inEnvironment.isBaseSouth(ours, false)) {
@@ -479,9 +482,15 @@ public class JJAgent extends Agent {
         //         }
         //     }
         // }
-        // else if(id == Label.SOUTH) {   
-        if(!bombLastMove){
-            return bomb;
+        // else if(id == Label.SOUTH) {
+        
+        if (xDisplacement == 3 || xDisplacement == 7)
+            return nothing;   
+
+        if(bombLastMove){
+            if (eastBase)
+                return west;
+            else return east;
         }
         else if(id == Label.SOUTH && obstNorth){
             if(eastBase && obstEast && !obstWest){
@@ -514,18 +523,18 @@ public class JJAgent extends Agent {
         }
         else if(inEnvironment.isBaseEast(ours, true)){
             if(!obstSouth && id == Label.NORTH)
-                return nothing;
+                return bomb;
                 //return south;
             else if(!obstNorth && id == Label.SOUTH)
-                return nothing;
+                return bomb;
                 //return north;
         }
         else if(inEnvironment.isBaseWest(ours, true)){
             if(!obstSouth && id == Label.NORTH)
-                return nothing;
+                return bomb;
                 //return south;
             else if(!obstNorth && id == Label.SOUTH)
-                return nothing;
+                return bomb;
                 //return north;
         }
         else if(inEnvironment.isBaseSouth(ours, false)){
