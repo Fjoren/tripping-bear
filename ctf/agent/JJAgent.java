@@ -75,24 +75,24 @@ public class JJAgent extends Agent {
         //south east
         if(id == Label.SOUTH){
             if(inEnvironment.isBaseNorth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleSouthImmediate()){
-                yDisplacement = 2;
+                yDisplacement = 1;
                 if(inEnvironment.isBaseEast(enemy, false)){
-                    xDisplacement = 2;
+                    xDisplacement = 1;
                 }
                 else{
-                    xDisplacement = -2;
+                    xDisplacement = 10;
                     eastBase = true;
                 }
             }
         }   
         else{
             if(inEnvironment.isBaseSouth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleNorthImmediate()){
-                yDisplacement = -2;
+                yDisplacement = 10;
                 if(inEnvironment.isBaseEast(enemy, false)){
-                    xDisplacement = 2;
+                    xDisplacement = 1;
                 }
                 else{
-                    xDisplacement = -2;
+                    xDisplacement = 10;
                     eastBase = true;
                 }
             }
@@ -104,16 +104,16 @@ public class JJAgent extends Agent {
            board.updateMap(xDisplacement, yDisplacement, inEnvironment);
         }
 
-        boolean[] obstacles = new boolean[] {obstNorth, obstSouth, obstEast, obstWest};
-        int openings = 4;
-        for (int i = 0; i < 4; i++){
-            if (obstacles[i])
-                openings--;
-        }
-        if (openings == 1) {
-            System.out.println("DEADEND");
-            board.setDeadEnd(xDisplacement,yDisplacement);
-        }
+        // boolean[] obstacles = new boolean[] {obstNorth, obstSouth, obstEast, obstWest};
+        // int openings = 4;
+        // for (int i = 0; i < 4; i++){
+        //     if (obstacles[i])
+        //         openings--;
+        // }
+        // if (openings == 1) {
+        //     System.out.println("DEADEND");
+        //     board.setDeadEnd(xDisplacement,yDisplacement);
+        // }
 
         //Final Jobs  
         if(currentJobs.contains(Job.DEFENDWITHBOMBS)){
@@ -180,7 +180,7 @@ public class JJAgent extends Agent {
         }
         System.out.println("id" + id + "m" + move + "x" + xDisplacement + "y" + yDisplacement);
         System.out.println(Arrays.toString(history.toArray()));
-        if(move == oppositeMove(history.getLast()) && move != -1){
+        if(move == oppositeMove(history.getLast()) && move != -1 && !inEnvironment.hasFlag()){
             board.setDeadEnd(xDisplacement, yDisplacement);
         }
         return move;
@@ -233,7 +233,13 @@ public class JJAgent extends Agent {
         // if goal both north and east
         if( goalNorth && goalEast ) {
             
-            if( !obstEast ) {   
+            if(inEnvironment.hasFlag() && !obstSouth){
+                return east;
+            }
+            else if(inEnvironment.hasFlag() && obstEast && !obstSouth){
+                return south;
+            }
+            else if( !obstEast ) {   
                 return AgentAction.MOVE_EAST;
                 }
             else if( !obstNorth ) {
@@ -252,7 +258,13 @@ public class JJAgent extends Agent {
             
         // if goal both north and west  
         if( goalNorth && goalWest ) {
-            if( !obstWest ) {   
+            if(inEnvironment.hasFlag() && !obstSouth){
+                return west;
+            }
+            else if(inEnvironment.hasFlag() && obstWest && !obstSouth){
+                return south;
+            }
+            else if( !obstWest ) {   
                 return AgentAction.MOVE_WEST;
                 }
             else if( !obstNorth ) {  
@@ -308,7 +320,10 @@ public class JJAgent extends Agent {
 
                     // if the goal is north only, and we're not blocked
         if( goalNorth) {
-            if(!obstNorth){
+            if(inEnvironment.hasFlag() && !obstNorth){
+                return north;
+            }
+            else if(!obstNorth){
                 return AgentAction.MOVE_NORTH;
                 }
             else if(!obstEast){
@@ -373,7 +388,10 @@ public class JJAgent extends Agent {
         // if the goal is south only, and we're not blocked
         if( goalSouth) {
             // move south
-            if(!obstSouth){
+            if(inEnvironment.hasFlag() && !obstSouth){
+                return south;
+            }
+            else if(!obstSouth){
                 return AgentAction.MOVE_SOUTH;
                 }
             else if(!obstEast){
@@ -462,7 +480,10 @@ public class JJAgent extends Agent {
         //     }
         // }
         // else if(id == Label.SOUTH) {   
-        if(id == Label.SOUTH && obstNorth){
+        if(!bombLastMove){
+            return bomb;
+        }
+        else if(id == Label.SOUTH && obstNorth){
             if(eastBase && obstEast && !obstWest){
                 return west;
             }

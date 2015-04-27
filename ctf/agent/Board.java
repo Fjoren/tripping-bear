@@ -80,10 +80,10 @@ public class Board {
 
     Board() {
         board = new Hashtable<Coordinate,BoardTile>();
-        addBoardTile(-2,-2);
-        addBoardTile(-2,2);
-        addBoardTile(2,-2);
-        addBoardTile(2,2);
+        addBoardTile(1,10);
+        addBoardTile(10,10);
+        addBoardTile(1,1);
+        addBoardTile(10,1);
     }
 
     void addBoardTile(int x, int y, Hashtable<String, Boolean> hash) {
