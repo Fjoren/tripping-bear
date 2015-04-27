@@ -56,7 +56,7 @@ public class JJAgent extends Agent {
 
         //Non Final Jobs
         if (currentJobs.contains(Job.MAPPING)) {
-            board.updateMap(inEnvironment);
+            board.updateMap(xDisplacement, yDisplacement, inEnvironment);
         }
 
         //Final Jobs  
