@@ -411,6 +411,7 @@ public class JJAgent extends Agent {
         return nothing;
     }
 
+<<<<<<< Updated upstream
     // //last element in array list
     // public int getLastArrayList(ArrayList<Integer> arrayList){
     //     if (arrayList != null && !arrayList.isEmpty()) {
@@ -418,6 +419,14 @@ public class JJAgent extends Agent {
     //     }
     //     return 0;
     // }
+=======
+    public int getLastArrayList(ArrayList<Integer> arrayList){
+        if (arrayList != null && !arrayList.isEmpty()) {
+            return arrayList.get(arrayList.size()-1);
+        }
+        return 1;
+    }
+>>>>>>> Stashed changes
 
 }
 
