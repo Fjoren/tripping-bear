@@ -59,16 +59,16 @@ public class JJAgent extends Agent {
         }
         board = new Board();
 
-        boolean obstNorth = inEnvironment.isObstacleNorthImmediate();
-        boolean obstSouth = inEnvironment.isObstacleSouthImmediate();
-        boolean obstEast = inEnvironment.isObstacleEastImmediate();
-        boolean obstWest = inEnvironment.isObstacleWestImmediate();
+        boolean obstNorth = inEnvironment.isObstacleNorthImmediate() && (history.get(getLastArrayList(history)) == 1);
+        boolean obstSouth = inEnvironment.isObstacleSouthImmediate() && (history.get(getLastArrayList(history)) == 0);
+        boolean obstEast = inEnvironment.isObstacleEastImmediate() && (history.get(getLastArrayList(history)) == 3);
+        boolean obstWest = inEnvironment.isObstacleWestImmediate() && (history.get(getLastArrayList(history)) == 2);
 
         //Non Final Jobs
         if (currentJobs.contains(Job.MAPPING)) {
-            System.out.println(xDisplacement);
-            System.out.println(yDisplacement);
-            board.updateMap(xDisplacement, yDisplacement, inEnvironment);
+           // System.out.println(xDisplacement);
+           //System.out.println(yDisplacement);
+           // board.updateMap(xDisplacement, yDisplacement, inEnvironment);
         }
 
         //Final Jobs  
@@ -380,6 +380,13 @@ public class JJAgent extends Agent {
             }
         }
         return nothing;
+    }
+
+    public int getLastArrayList(ArrayList<Integer> arrayList){
+        if (arrayList != null && !arrayList.isEmpty()) {
+            return arrayList.get(arrayList.size()-1);
+        }
+        return -13232;
     }
 
 }
