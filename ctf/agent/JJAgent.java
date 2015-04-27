@@ -44,19 +44,19 @@ public class JJAgent extends Agent {
             currentJobs.add(Job.MAPPING);
             if (inEnvironment.isBaseSouth(ours, false)) {
                 id = NORTH;
-                yDisplacement = -2;
+                yDisplacement = 10;
                 currentJobs.add(Job.DEFENDWITHBOMBS);
             }
             else{
                 id = SOUTH;
-                yDisplacement = 2;
+                yDisplacement = 1;
                 currentJobs.add(Job.TOWARDSGOAL);
             }
             if(inEnvironment.isBaseEast(enemy, false)){
-                xDisplacement = 2;
+                xDisplacement = 1;
             }
             else{
-                xDisplacement = -2;
+                xDisplacement = 10;
                 eastBase = true;
             }
             firstMove = false;
@@ -543,7 +543,24 @@ public class JJAgent extends Agent {
         return nothing;
     }
 
+    private static class TreeNode<T> {
+        private T data;
+        private Node<T> parent;
+        private List<Node<T>> children;
 
+        TreeNode(T data,Node<T> parent) {
+            this.data = data;
+            this.parent = parent;
+            parent.children.add(this);
+            children = new LinkedList<Node<T>>();
+        }
+    }
+
+    TreeNode<AgentAction> current;
+
+    int JDefend (AgentEnvironment env) {
+        
+    }
 }
 
     
