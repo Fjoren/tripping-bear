@@ -411,11 +411,12 @@ public class JJAgent extends Agent {
         return nothing;
     }
 
+    //last element in array list
     public int getLastArrayList(ArrayList<Integer> arrayList){
         if (arrayList != null && !arrayList.isEmpty()) {
             return arrayList.get(arrayList.size()-1);
         }
-        return -13232;
+        return 0;
     }
 
 }
