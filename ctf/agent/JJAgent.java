@@ -56,6 +56,9 @@ public class JJAgent extends Agent {
                 xDisplacement = -2;
             }
             firstMove = false;
+            System.out.println(inEnvironment.isObstacleNorthImmediate());
+            System.out.println(inEnvironment.isObstacleSouthImmediate());
+            System.out.println(id);
         }
 
         boolean obstNorth = inEnvironment.isObstacleNorthImmediate();
@@ -108,6 +111,7 @@ public class JJAgent extends Agent {
             bombLastMove = false;
         
         history.add(move);
+        System.out.println("m" + move + "x" + xDisplacement + "y" + yDisplacement);
         return move;
         
     //    step++;
