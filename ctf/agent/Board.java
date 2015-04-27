@@ -52,6 +52,12 @@ public class Board {
                     Object temp = e.nextElement();
                     flags.put((String)temp,options.get((String)temp));
                 }
+        }   
+        boolean deadEnd () {
+            if (flags.containsKey("deadEnd"))
+                if (flags.get("deadEnd"))
+                    return true;
+            return false;
         }
     }
 

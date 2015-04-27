@@ -2,7 +2,7 @@ package ctf.agent;
 
 import ctf.common.AgentEnvironment;
 import ctf.agent.Agent;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Hashtable;
 
 import ctf.common.AgentAction;
@@ -18,7 +18,7 @@ public class JJAgent extends Agent {
     //this instaniazies it 
     boolean firstMove = true;
     ArrayList<Job> currentJobs = new ArrayList<Job>();
-    ArrayList<Integer> history = new ArrayList<Integer>(); 
+    LinkedList<Integer> history = new LinkedList<Integer>(); 
     int counter = 0;
     int xDisplacement = 0;
     int yDisplacement = 0;
@@ -41,14 +41,15 @@ public class JJAgent extends Agent {
     public int getMove(AgentEnvironment inEnvironment) {
         if (firstMove) {
             currentJobs.add(Job.MAPPING);
-            currentJobs.add(Job.TOWARDSGOAL);
             if (inEnvironment.isBaseSouth(ours, false)) {
                 id = 0;
                 yDisplacement = -2;
+                currentJobs.add(Job.TOWARDSGOAL);
             }
             else{
                 id = 1;
                 yDisplacement = 2;
+                currentJobs.add(Job.DEFENDWITHBOMBS);
             }
             if(inEnvironment.isBaseEast(enemy, false)){
                 xDisplacement = 2;
@@ -62,11 +63,13 @@ public class JJAgent extends Agent {
             System.out.println(inEnvironment.isObstacleSouthImmediate());
             System.out.println(id);
         }
-
-        boolean obstNorth = inEnvironment.isObstacleNorthImmediate(); //&& (history.get(getLastArrayList(history)) == 1);
-        boolean obstSouth = inEnvironment.isObstacleSouthImmediate(); //&& (history.get(getLastArrayList(history)) == 0);
-        boolean obstEast = inEnvironment.isObstacleEastImmediate(); //&& (history.get(getLastArrayList(history)) == 3);
-        boolean obstWest = inEnvironment.isObstacleWestImmediate(); //&& (history.get(getLastArrayList(history)) == 2);
+        if(history.isEmpty()){
+            history.add(-1);
+        }
+        boolean obstNorth = inEnvironment.isObstacleNorthImmediate();// && !(history.getLast() == 1);
+        boolean obstSouth = inEnvironment.isObstacleSouthImmediate();// && !(history.getLast() == 0);
+        boolean obstEast = inEnvironment.isObstacleEastImmediate();// && !(history.getLast() == 3);
+        boolean obstWest = inEnvironment.isObstacleWestImmediate();// && !(history.getLast() == 2);
         //south east
         if(id == 1){
             if(inEnvironment.isBaseNorth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleSouthImmediate()){
@@ -187,7 +190,7 @@ public class JJAgent extends Agent {
         
         // if goal both north and east
         if( goalNorth && goalEast ) {
-            // pick north or east for move with 50/50 chance
+            
             if( !obstEast ) {   
                 return AgentAction.MOVE_EAST;
                 }
@@ -377,15 +380,15 @@ public class JJAgent extends Agent {
                 return west;
         }
         else if(inEnvironment.isBaseEast(ours, true)){
-            if(!obstSouth)
+            if(!obstSouth && id == 0)
                 return south;
-            else if(!obstNorth)
+            else if(!obstNorth && id == 1)
                 return north;
         }
         else if(inEnvironment.isBaseWest(ours, true)){
-            if(!obstSouth)
+            if(!obstSouth && id == 0)
                 return south;
-            else if(!obstNorth)
+            else if(!obstNorth && id == 1)
                 return north;
         }
         else if(inEnvironment.isBaseSouth(ours, false)){
@@ -411,7 +414,7 @@ public class JJAgent extends Agent {
         return nothing;
     }
 
-<<<<<<< Updated upstream
+
     // //last element in array list
     // public int getLastArrayList(ArrayList<Integer> arrayList){
     //     if (arrayList != null && !arrayList.isEmpty()) {
@@ -419,14 +422,7 @@ public class JJAgent extends Agent {
     //     }
     //     return 0;
     // }
-=======
-    public int getLastArrayList(ArrayList<Integer> arrayList){
-        if (arrayList != null && !arrayList.isEmpty()) {
-            return arrayList.get(arrayList.size()-1);
-        }
-        return 1;
-    }
->>>>>>> Stashed changes
+
 
 }
 
