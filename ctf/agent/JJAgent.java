@@ -66,10 +66,10 @@ public class JJAgent extends Agent {
         if(history.isEmpty()){
             history.add(-1);
         }
-        boolean obstNorth = inEnvironment.isObstacleNorthImmediate();// && !(history.getLast() == 1);
-        boolean obstSouth = inEnvironment.isObstacleSouthImmediate();// && !(history.getLast() == 0);
-        boolean obstEast = inEnvironment.isObstacleEastImmediate();// && !(history.getLast() == 3);
-        boolean obstWest = inEnvironment.isObstacleWestImmediate();// && !(history.getLast() == 2);
+        boolean obstNorth = inEnvironment.isObstacleNorthImmediate() || board.isDeadEnd(yDisplacement + 1, xDisplacement);// && !(history.getLast() == 1);
+        boolean obstSouth = inEnvironment.isObstacleSouthImmediate() || board.isDeadEnd(yDisplacement - 1, xDisplacement);// && !(history.getLast() == 0);
+        boolean obstEast = inEnvironment.isObstacleEastImmediate() || board.isDeadEnd(yDisplacement, xDisplacement + 1);// && !(history.getLast() == 3);
+        boolean obstWest = inEnvironment.isObstacleWestImmediate() || board.isDeadEnd(yDisplacement, xDisplacement - 1);// && !(history.getLast() == 2);
         //south east
         if(id == 1){
             if(inEnvironment.isBaseNorth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleSouthImmediate()){
