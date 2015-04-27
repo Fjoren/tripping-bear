@@ -4,6 +4,8 @@ import ctf.common.AgentEnvironment;
 import ctf.agent.Agent;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Enumeration;
+import java.io.*;
 
 import ctf.common.AgentAction;
             
@@ -17,7 +19,7 @@ private class Board {
             y = _y;
         }
         public boolean equals(Object o) {
-            if (x instanceof Coordinate && x == (Coordinate)o.x && y = (Coordinate)o.y)
+            if (o instanceof Coordinate && x == ((Coordinate)o).x && y == ((Coordinate)o).y)
                 return true;
             else
                 return false;
@@ -25,19 +27,19 @@ private class Board {
     }
 
     private class BoardTile {
-        Hashtable<String,boolean> flags;
+        Hashtable<String,Boolean> flags;
 
-        BoardTile(Hashtable<String, boolean> options) {
-            flags = new Hashtable<String, boolean>();
+        BoardTile(Hashtable<String, Boolean> options) {
+            flags = new Hashtable<String, Boolean>();
             update(options);
         }
 
         BoardTile() {
-            flags = new Hashtable<String,boolean>();
+            flags = new Hashtable<String,Boolean>();
         }
 
-        void update(HashTable<String,boolean> options) {
-            for (Enumeration<E> e = options.keys(); e.hasMoreElements;) {
+        void update(Hashtable<String,Boolean> options) {
+            for (Enumeration<String> e = options.keys(); e.hasMoreElements();) {
                 Object temp = e.nextElement();
                 flags.put((String)temp,options.get((String)temp));
             }
@@ -46,13 +48,13 @@ private class Board {
 
     Hashtable<Coordinate,BoardTile> board;
     int size = -1;
-    boolean complete = false;
+    Boolean complete = false;
 
     Board() {
         board = new Hashtable<Coordinate,BoardTile>();
     }
 
-    void addBoardTile(int x, int y, Hashtable<String, boolean> hash) {
+    void addBoardTile(int x, int y, Hashtable<String, Boolean> hash) {
         board.put(new Coordinate(x,y),new BoardTile(hash));
     }
 
@@ -68,10 +70,10 @@ private class Board {
         BoardTile current = board.get(new Coordinate(x,y));
         //Shouldn't ever occur
         if (current == null) {
-            board.addBoardTile(x,y,new BoardTile());
+            addBoardTile(x,y,new BoardTile());
         }
         //Check update current tile
-        Hashtable<String,boolean> upd = new Hashtable<String,boolean>();
+        Hashtable<String,Boolean> upd = new Hashtable<String,Boolean>();
         if (env.isBaseNorth(env.OUR_TEAM,false))
             upd.put("baseNorth",true);
         if (env.isBaseSouth(env.OUR_TEAM,true))
@@ -81,8 +83,32 @@ private class Board {
         upd.clear();
         //North
         if (board.get(new Coordinate(x,y+1)) == null)
-            board.addBoardTile(x,y+1);
-        if (env.)
+            addBoardTile(x,y+1);
+        if (env.isObstacleNorthImmediate())
+            upd.put("blocked",true);
+        board.get(new Coordinate(x,y+1)).update(upd);
+        upd.clear();
+        //South
+        if (board.get(new Coordinate(x,y-1)) == null)
+            addBoardTile(x,y-1);
+        if (env.isObstacleSouthImmediate())
+            upd.put("blocked",true);
+        board.get(new Coordinate(x,y-1)).update(upd);
+        upd.clear();
+        //East
+        if (board.get(new Coordinate(x+1,y)) == null)
+            addBoardTile(x+1,y);
+        if (env.isObstacleEastImmediate())
+            upd.put("blocked",true);
+        board.get(new Coordinate(x+1,y)).update(upd);
+        upd.clear();
+        //West
+        if (board.get(new Coordinate(x-1,y)) == null)
+            addBoardTile(x-1,y);
+        if (env.isObstacleWestImmediate())
+            upd.put("blocked",true);
+        board.get(new Coordinate(x-1,y)).update(upd);
+        upd.clear();
     }
 
     void placeBomb(int x, int y) {
