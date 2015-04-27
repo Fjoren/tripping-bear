@@ -8,13 +8,14 @@ import java.util.Hashtable;
 import ctf.common.AgentAction;
 //this is the jobs you can have
 enum Job {MAPPING, RANDOM_MOVES, FIND_MAP_SIZE, GUARDING, ATTACKING, TOWARDSGOAL, DEFENDWITHBOMBS}
+enum Label {NORTH, SOUTH}
 
 //Jeffrey Jennifer Agent
 public class JJAgent extends Agent {
     
     static Board board = new Board();
     //which one is which
-    int id;
+    Label id;
     //this instaniazies it 
     boolean firstMove = true;
     ArrayList<Job> currentJobs = new ArrayList<Job>();
@@ -42,12 +43,12 @@ public class JJAgent extends Agent {
         if (firstMove) {
             currentJobs.add(Job.MAPPING);
             if (inEnvironment.isBaseSouth(ours, false)) {
-                id = 0;
+                id = NORTH;
                 yDisplacement = -2;
                 currentJobs.add(Job.DEFENDWITHBOMBS);
             }
             else{
-                id = 1;
+                id = SOUTH;
                 yDisplacement = 2;
                 currentJobs.add(Job.TOWARDSGOAL);
             }
@@ -59,12 +60,12 @@ public class JJAgent extends Agent {
                 eastBase = true;
             }
             firstMove = false;
-            System.out.println(inEnvironment.isObstacleNorthImmediate());
-            System.out.println(inEnvironment.isObstacleSouthImmediate());
-            System.out.println(id);
+            //System.out.println(inEnvironment.isObstacleNorthImmediate());
+            //System.out.println(inEnvironment.isObstacleSouthImmediate());
+            //System.out.println(id);
         }
         if(history.isEmpty()){
-            history.add(-1);
+            history.addLast(-1);
         }
 
         boolean obstNorth = inEnvironment.isObstacleNorthImmediate() || board.isDeadEnd(yDisplacement + 1, xDisplacement);// && !(history.getLast() == 1);
@@ -72,7 +73,7 @@ public class JJAgent extends Agent {
         boolean obstEast = inEnvironment.isObstacleEastImmediate() || board.isDeadEnd(yDisplacement, xDisplacement + 1);// && !(history.getLast() == 3);
         boolean obstWest = inEnvironment.isObstacleWestImmediate() || board.isDeadEnd(yDisplacement, xDisplacement - 1);// && !(history.getLast() == 2);
         //south east
-        if(id == 1){
+        if(id == SOUTH){
             if(inEnvironment.isBaseNorth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleSouthImmediate()){
                 yDisplacement = 2;
                 if(inEnvironment.isBaseEast(enemy, false)){
@@ -98,8 +99,8 @@ public class JJAgent extends Agent {
         }
         //Non Final Jobs
         if (currentJobs.contains(Job.MAPPING)) {
-           System.out.println(xDisplacement);
-           System.out.println(yDisplacement);
+           //System.out.println(xDisplacement);
+          // System.out.println(yDisplacement);
            board.updateMap(xDisplacement, yDisplacement, inEnvironment);
         }
 
@@ -112,6 +113,30 @@ public class JJAgent extends Agent {
         }
         if(currentJobs.contains(Job.RANDOM_MOVES)){
             move = random(inEnvironment);
+        }
+
+        if(inEnvironment.hasFlag() && history.size() > 0){
+            move = history.pollLast();
+            switch (move){
+                case 0:
+                    move = 1;
+                    break;
+                case 2:
+                    move = 3;
+                    break;
+                case 3:
+                    move = 2;
+                    break;
+                case 1:
+                    move = 0;
+                    break;
+                case 379037:
+                    break;
+                case -1:
+                    break;
+                default: 
+                    break;
+                }    
         }
         switch (move){
             case 0:
@@ -139,9 +164,11 @@ public class JJAgent extends Agent {
             bombLastMove = true;
         else
             bombLastMove = false;
-        
-        history.add(move);
-        System.out.println("m" + move + "x" + xDisplacement + "y" + yDisplacement);
+        if(!inEnvironment.hasFlag() && move != bomb){
+            history.addLast(move);
+        }
+        System.out.println("id" + id + "m" + move + "x" + xDisplacement + "y" + yDisplacement);
+        System.out.println(Arrays.toString(history.toArray()));
         if(move == history.getLast()){
             board.setDeadEnd(xDisplacement, yDisplacement);
         }
@@ -366,106 +393,140 @@ public class JJAgent extends Agent {
     }
 
     public int defendWithBombs(AgentEnvironment inEnvironment, boolean obstNorth, boolean obstSouth, boolean obstEast, boolean obstWest){
-        if(id == 0) {   
-            if(!bombLastMove){
-                return bomb;
+        // if(id == NORTH) {   
+        //     if(!bombLastMove){
+        //         return bomb;
+        //     }
+        //     else if (inEnvironment.isBaseSouth(ours,true)){
+        //         if(inEnvironment.isBaseEast(enemy, false) && !obstEast){
+        //             return east;
+        //         }
+        //         else if(!obstWest)
+        //             return west;
+        //     }
+        //     else if(inEnvironment.isBaseNorth(ours, true)){
+        //         if(inEnvironment.isBaseEast(enemy, false && !obstEast)){
+        //             return east;
+        //         }
+        //         else if(!obstWest)
+        //             return west;
+        //     }
+        //     else if(inEnvironment.isBaseEast(ours, true)){
+        //         if(!obstSouth && id == NORTH)
+        //             return south;
+        //         else if(!obstNorth && id == SOUTH)
+        //             return north;
+        //     }
+        //     else if(inEnvironment.isBaseWest(ours, true)){
+        //         if(!obstSouth && id == NORTH)
+        //             return south;
+        //         else if(!obstNorth && id == SOUTH)
+        //             return north;
+        //     }
+        //     else if(inEnvironment.isBaseSouth(ours, false)){
+        //         if(!obstSouth)
+        //                 return south;
+        //         else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
+        //             return east;
+        //         }
+        //         else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
+        //             return west;
+        //         }
+        //     }
+        //     else if(inEnvironment.isBaseNorth(ours, false)){
+        //         if(!obstNorth)
+        //                 return north;
+        //         else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
+        //                 return east;
+        //         }
+        //         else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
+        //                 return west;
+        //         }
+        //     }
+        // }
+        // else if(id == SOUTH) {   
+        if(!bombLastMove){
+            return bomb;
+        }
+        else if(id == SOUTH && obstNorth){
+            if(eastBase && obstEast && !obstWest){
+                return west;
             }
-            else if (inEnvironment.isBaseSouth(ours,true)){
-                if(inEnvironment.isBaseEast(enemy, false) && !obstEast){
-                    return east;
-                }
-                else if(!obstWest)
-                    return west;
+            else 
+                return east;
+
+        }
+        else if(id == NORTH && obstSouth){
+            if(eastBase && obstEast && !obstWest){
+                return west;
             }
-            else if(inEnvironment.isBaseNorth(ours, true)){
-                if(inEnvironment.isBaseEast(enemy, false && !obstEast)){
-                    return east;
-                }
-                else if(!obstWest)
-                    return west;
+            else 
+                return east;
+        }
+        else if (inEnvironment.isBaseSouth(ours,true)){
+            if(inEnvironment.isBaseEast(enemy, false) && !obstEast){
+                return east;
             }
-            else if(inEnvironment.isBaseEast(ours, true)){
-                if(!obstSouth && id == 0)
-                    return south;
-                else if(!obstNorth && id == 1)
-                    return north;
+            else if(!obstWest)
+                return west;
+        }
+        else if(inEnvironment.isBaseNorth(ours, true)){
+            if(inEnvironment.isBaseEast(enemy, false && !obstEast)){
+                return east;
             }
-            else if(inEnvironment.isBaseWest(ours, true)){
-                if(!obstSouth && id == 0)
-                    return south;
-                else if(!obstNorth && id == 1)
-                    return north;
+            else if(!obstWest)
+                return west;
+        }
+        else if(inEnvironment.isBaseEast(ours, true)){
+            if(!obstSouth && id == NORTH)
+                return south;
+            else if(!obstNorth && id == SOUTH)
+                return north;
+        }
+        else if(inEnvironment.isBaseWest(ours, true)){
+            if(!obstSouth && id == NORTH)
+                return south;
+            else if(!obstNorth && id == SOUTH)
+                return north;
+        }
+        else if(inEnvironment.isBaseSouth(ours, false)){
+            if(!obstSouth && id == NORTH){
+                return south;
             }
-            else if(inEnvironment.isBaseSouth(ours, false)){
-                if(!obstSouth)
-                        return south;
-                else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
-                    return east;
-                }
-                else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
-                    return west;
-                }
+            else if(!obstSouth && id == SOUTH){
+                return north;
             }
-            else if(inEnvironment.isBaseNorth(ours, false)){
-                if(!obstNorth)
-                        return north;
-                else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
-                        return east;
-                }
-                else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
-                        return west;
-                }
+            else if(inEnvironment.isBaseEast(ours, false) && !obstEast && id == SOUTH){
+                return east;
+            }
+            else if(inEnvironment.isBaseEast(ours, false) && !obstEast && id == NORTH){
+                return south;
+            }
+            else if(inEnvironment.isBaseWest(ours, false) && !obstWest && id == SOUTH){
+                return west;
+            }
+            else if(inEnvironment.isBaseWest(ours, false) && !obstWest && id == NORTH){
+                return south;
             }
         }
-        else if(id == 1) {   
-            if(!bombLastMove){
-                return bomb;
+        else if(inEnvironment.isBaseNorth(ours, false)){
+            if(!obstNorth && id == SOUTH){
+                return north;
             }
-            else if (inEnvironment.isBaseSouth(ours,true)){
-                if(inEnvironment.isBaseEast(enemy, false) && !obstEast){
-                    return east;
-                }
-                else if(!obstWest)
-                    return west;
+            else if(!obstNorth && id == NORTH){
+                return south;
             }
-            else if(inEnvironment.isBaseNorth(ours, true)){
-                if(inEnvironment.isBaseEast(enemy, false && !obstEast)){
-                    return east;
-                }
-                else if(!obstWest)
-                    return west;
+            else if(inEnvironment.isBaseEast(ours, false) && !obstEast && id == NORTH){
+                return east;
             }
-            else if(inEnvironment.isBaseEast(ours, true)){
-                if(!obstSouth && id == 0)
-                    return south;
-                else if(!obstNorth && id == 1)
-                    return north;
+            else if(inEnvironment.isBaseEast(ours, false) && !obstEast && id == SOUTH){
+                return south;
             }
-            else if(inEnvironment.isBaseWest(ours, true)){
-                if(!obstSouth && id == 0)
-                    return south;
-                else if(!obstNorth && id == 1)
-                    return north;
+            else if(inEnvironment.isBaseWest(ours, false) && !obstWest && id == NORTH){
+                return west;
             }
-            else if(inEnvironment.isBaseSouth(ours, false)){
-                if(!obstSouth)
-                        return south;
-                else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
-                    return east;
-                }
-                else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
-                    return west;
-                }
-            }
-            else if(inEnvironment.isBaseNorth(ours, false)){
-                if(!obstNorth)
-                        return north;
-                else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
-                        return east;
-                }
-                else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
-                        return west;
-                }
+            else if(inEnvironment.isBaseWest(ours, false) && !obstWest && id == SOUTH){
+                return south;
             }
         }
         return nothing;
