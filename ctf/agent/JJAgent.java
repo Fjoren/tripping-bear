@@ -50,10 +50,10 @@ public class JJAgent extends Agent {
                 yDisplacement = 2;
             }
             if(inEnvironment.isBaseEast(enemy, false)){
-                xDisplacement = -2;
+                xDisplacement = 2;
             }
             else{
-                xDisplacement = 2;
+                xDisplacement = -2;
             }
             firstMove = false;
         }
