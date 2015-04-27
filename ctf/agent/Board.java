@@ -96,6 +96,10 @@ public class Board {
         return board.get(new Coordinate(x,y)).deadEnd();
     }
 
+    int[] pathToFlag(int x, int y) {
+        
+    }
+
     void updateMap(int x, int y, AgentEnvironment env) {
         System.out.println(" " + x +" " + y);
         int counter = 0;
