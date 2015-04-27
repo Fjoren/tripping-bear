@@ -560,22 +560,6 @@ public class JJAgent extends Agent {
         return nothing;
     }
 
-<<<<<<< HEAD
-    private static class TreeNode<T> {
-        private T data;
-        private Node<T> parent;
-        private List<Node<T>> children;
-
-        TreeNode(T data,Node<T> parent) {
-            this.data = data;
-            this.parent = parent;
-            parent.children.add(this);
-            children = new LinkedList<Node<T>>();
-        }
-    }
-
-    TreeNode<AgentAction> current;
-=======
     public int oppositeMove(int move){
         if(move == 0)
             return 1;
@@ -588,8 +572,22 @@ public class JJAgent extends Agent {
         else 
             return -1;
     }
->>>>>>> FETCH_HEAD
+    
+    private static class TreeNode<T> {
+        private T data;
+        private TreeNode<T> parent;
+        private List<TreeNode<T>> children;
 
+        TreeNode(T data,TreeNode<T> parent) {
+            this.data = data;
+            this.parent = parent;
+            parent.children.add(this);
+            children = new LinkedList<TreeNode<T>>();
+        }
+    }
+
+    TreeNode<AgentAction> current = new TreeNode<AgentAction>();
+    
     int JDefend (AgentEnvironment env) {
         
     }
