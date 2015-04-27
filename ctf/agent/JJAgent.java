@@ -66,7 +66,7 @@ public class JJAgent extends Agent {
         if(history.isEmpty()){
             history.add(-1);
         }
-        
+
         boolean obstNorth = inEnvironment.isObstacleNorthImmediate() || board.isDeadEnd(yDisplacement + 1, xDisplacement);// && !(history.getLast() == 1);
         boolean obstSouth = inEnvironment.isObstacleSouthImmediate() || board.isDeadEnd(yDisplacement - 1, xDisplacement);// && !(history.getLast() == 0);
         boolean obstEast = inEnvironment.isObstacleEastImmediate() || board.isDeadEnd(yDisplacement, xDisplacement + 1);// && !(history.getLast() == 3);
@@ -142,6 +142,9 @@ public class JJAgent extends Agent {
         
         history.add(move);
         System.out.println("m" + move + "x" + xDisplacement + "y" + yDisplacement);
+        if(move == history.getLast()){
+            board.setDeadEnd(xDisplacement, yDisplacement);
+        }
         return move;
         
     //    step++;
