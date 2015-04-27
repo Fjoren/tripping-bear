@@ -379,7 +379,11 @@ public class JJAgent extends Agent {
                     return west;
             }
         }
+<<<<<<< HEAD
             return nothing;
+=======
+        return nothing;
+>>>>>>> FETCH_HEAD
     }
 
 }
