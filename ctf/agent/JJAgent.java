@@ -43,12 +43,12 @@ public class JJAgent extends Agent {
         if (firstMove) {
             currentJobs.add(Job.MAPPING);
             if (inEnvironment.isBaseSouth(ours, false)) {
-                id = NORTH;
+                id = Label.NORTH;
                 yDisplacement = -2;
                 currentJobs.add(Job.DEFENDWITHBOMBS);
             }
             else{
-                id = SOUTH;
+                id = Label.SOUTH;
                 yDisplacement = 2;
                 currentJobs.add(Job.TOWARDSGOAL);
             }
@@ -65,7 +65,7 @@ public class JJAgent extends Agent {
             //System.out.println(id);
         }
         if(history.isEmpty()){
-            history.addLast(-1);
+            history.addLast(-2);
         }
 
         boolean obstNorth = inEnvironment.isObstacleNorthImmediate() || board.isDeadEnd(yDisplacement + 1, xDisplacement);// && !(history.getLast() == 1);
@@ -73,7 +73,7 @@ public class JJAgent extends Agent {
         boolean obstEast = inEnvironment.isObstacleEastImmediate() || board.isDeadEnd(yDisplacement, xDisplacement + 1);// && !(history.getLast() == 3);
         boolean obstWest = inEnvironment.isObstacleWestImmediate() || board.isDeadEnd(yDisplacement, xDisplacement - 1);// && !(history.getLast() == 2);
         //south east
-        if(id == SOUTH){
+        if(id == Label.SOUTH){
             if(inEnvironment.isBaseNorth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleSouthImmediate()){
                 yDisplacement = 2;
                 if(inEnvironment.isBaseEast(enemy, false)){
@@ -115,29 +115,29 @@ public class JJAgent extends Agent {
             move = random(inEnvironment);
         }
 
-        if(inEnvironment.hasFlag() && history.size() > 0){
-            move = history.pollLast();
-            switch (move){
-                case 0:
-                    move = 1;
-                    break;
-                case 2:
-                    move = 3;
-                    break;
-                case 3:
-                    move = 2;
-                    break;
-                case 1:
-                    move = 0;
-                    break;
-                case 379037:
-                    break;
-                case -1:
-                    break;
-                default: 
-                    break;
-                }    
-        }
+        // if(inEnvironment.hasFlag() && history.size() > 0 && history.getLast() != -2){
+        //     move = history.pollLast();
+        //     switch (move){
+        //         case 0:
+        //             move = 1;
+        //             break;
+        //         case 2:
+        //             move = 3;
+        //             break;
+        //         case 3:
+        //             move = 2;
+        //             break;
+        //         case 1:
+        //             move = 0;
+        //             break;
+        //         case 379037:
+        //             break;
+        //         case -1:
+        //             break;
+        //         default: 
+        //             break;
+        //         }    
+        // }
         switch (move){
             case 0:
                 yDisplacement++;
@@ -162,14 +162,14 @@ public class JJAgent extends Agent {
 
         if(move == bomb)
             bombLastMove = true;
-        else
+        else 
             bombLastMove = false;
         if(!inEnvironment.hasFlag() && move != bomb){
             history.addLast(move);
         }
         System.out.println("id" + id + "m" + move + "x" + xDisplacement + "y" + yDisplacement);
         System.out.println(Arrays.toString(history.toArray()));
-        if(move == history.getLast()){
+        if(move == oppositeMove(history.getLast()) && move != -1){
             board.setDeadEnd(xDisplacement, yDisplacement);
         }
         return move;
@@ -393,7 +393,7 @@ public class JJAgent extends Agent {
     }
 
     public int defendWithBombs(AgentEnvironment inEnvironment, boolean obstNorth, boolean obstSouth, boolean obstEast, boolean obstWest){
-        // if(id == NORTH) {   
+        // if(id == Label.NORTH) {   
         //     if(!bombLastMove){
         //         return bomb;
         //     }
@@ -412,15 +412,15 @@ public class JJAgent extends Agent {
         //             return west;
         //     }
         //     else if(inEnvironment.isBaseEast(ours, true)){
-        //         if(!obstSouth && id == NORTH)
+        //         if(!obstSouth && id == Label.NORTH)
         //             return south;
-        //         else if(!obstNorth && id == SOUTH)
+        //         else if(!obstNorth && id == Label.SOUTH)
         //             return north;
         //     }
         //     else if(inEnvironment.isBaseWest(ours, true)){
-        //         if(!obstSouth && id == NORTH)
+        //         if(!obstSouth && id == Label.NORTH)
         //             return south;
-        //         else if(!obstNorth && id == SOUTH)
+        //         else if(!obstNorth && id == Label.SOUTH)
         //             return north;
         //     }
         //     else if(inEnvironment.isBaseSouth(ours, false)){
@@ -444,11 +444,8 @@ public class JJAgent extends Agent {
         //         }
         //     }
         // }
-        // else if(id == SOUTH) {   
-        if(!bombLastMove){
-            return bomb;
-        }
-        else if(id == SOUTH && obstNorth){
+        // else if(id == Label.SOUTH) {   
+        if(id == Label.SOUTH && obstNorth){
             if(eastBase && obstEast && !obstWest){
                 return west;
             }
@@ -456,7 +453,7 @@ public class JJAgent extends Agent {
                 return east;
 
         }
-        else if(id == NORTH && obstSouth){
+        else if(id == Label.NORTH && obstSouth){
             if(eastBase && obstEast && !obstWest){
                 return west;
             }
@@ -478,60 +475,76 @@ public class JJAgent extends Agent {
                 return west;
         }
         else if(inEnvironment.isBaseEast(ours, true)){
-            if(!obstSouth && id == NORTH)
-                return south;
-            else if(!obstNorth && id == SOUTH)
-                return north;
+            if(!obstSouth && id == Label.NORTH)
+                return nothing;
+                //return south;
+            else if(!obstNorth && id == Label.SOUTH)
+                return nothing;
+                //return north;
         }
         else if(inEnvironment.isBaseWest(ours, true)){
-            if(!obstSouth && id == NORTH)
-                return south;
-            else if(!obstNorth && id == SOUTH)
-                return north;
+            if(!obstSouth && id == Label.NORTH)
+                return nothing;
+                //return south;
+            else if(!obstNorth && id == Label.SOUTH)
+                return nothing;
+                //return north;
         }
         else if(inEnvironment.isBaseSouth(ours, false)){
-            if(!obstSouth && id == NORTH){
+            if(!obstSouth && id == Label.NORTH){
                 return south;
             }
-            else if(!obstSouth && id == SOUTH){
+            else if(!obstSouth && id == Label.SOUTH){
                 return north;
             }
-            else if(inEnvironment.isBaseEast(ours, false) && !obstEast && id == SOUTH){
+            else if(inEnvironment.isBaseEast(ours, false) && !obstEast && id == Label.SOUTH){
                 return east;
             }
-            else if(inEnvironment.isBaseEast(ours, false) && !obstEast && id == NORTH){
+            else if(inEnvironment.isBaseEast(ours, false) && !obstEast && id == Label.NORTH){
                 return south;
             }
-            else if(inEnvironment.isBaseWest(ours, false) && !obstWest && id == SOUTH){
+            else if(inEnvironment.isBaseWest(ours, false) && !obstWest && id == Label.SOUTH){
                 return west;
             }
-            else if(inEnvironment.isBaseWest(ours, false) && !obstWest && id == NORTH){
+            else if(inEnvironment.isBaseWest(ours, false) && !obstWest && id == Label.NORTH){
                 return south;
             }
         }
         else if(inEnvironment.isBaseNorth(ours, false)){
-            if(!obstNorth && id == SOUTH){
+            if(!obstNorth && id == Label.SOUTH){
                 return north;
             }
-            else if(!obstNorth && id == NORTH){
+            else if(!obstNorth && id == Label.NORTH){
                 return south;
             }
-            else if(inEnvironment.isBaseEast(ours, false) && !obstEast && id == NORTH){
+            else if(inEnvironment.isBaseEast(ours, false) && !obstEast && id == Label.NORTH){
                 return east;
             }
-            else if(inEnvironment.isBaseEast(ours, false) && !obstEast && id == SOUTH){
+            else if(inEnvironment.isBaseEast(ours, false) && !obstEast && id == Label.SOUTH){
                 return south;
             }
-            else if(inEnvironment.isBaseWest(ours, false) && !obstWest && id == NORTH){
+            else if(inEnvironment.isBaseWest(ours, false) && !obstWest && id == Label.NORTH){
                 return west;
             }
-            else if(inEnvironment.isBaseWest(ours, false) && !obstWest && id == SOUTH){
+            else if(inEnvironment.isBaseWest(ours, false) && !obstWest && id == Label.SOUTH){
                 return south;
             }
         }
         return nothing;
     }
 
+    public int oppositeMove(int move){
+        if(move == 0)
+            return 1;
+        if(move == 1)
+            return 0;
+        if (move == 2)
+            return 3;
+        if (move == 3)
+            return 2;
+        else 
+            return -1;
+    }
 
 }
 
