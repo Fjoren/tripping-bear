@@ -563,24 +563,25 @@ public class JJAgent extends Agent {
             return -1;
     }
     
-    private static class TreeNode<T> {
-        private T data;
-        private TreeNode<T> parent;
-        private List<TreeNode<T>> children;
+    //private static class TreeNode<T> {
+    //    private T data;
+    //    private TreeNode<T> parent;
+    //    private List<TreeNode<T>> children;
 
-        TreeNode(T data,TreeNode<T> parent) {
-            this.data = data;
-            this.parent = parent;
-            parent.children.add(this);
-            children = new LinkedList<TreeNode<T>>();
-        }
-    }
+    //    TreeNode(T data,TreeNode<T> parent) {
+    //        this.data = data;
+    //        this.parent = parent;
+    //        parent.children.add(this);
+    //        children = new LinkedList<TreeNode<T>>();
+    //    }
+    //}
 
-    TreeNode<AgentAction> current = new TreeNode<AgentAction>(null,null);
+    //TreeNode<AgentAction> current = new TreeNode<AgentAction>(null,null);
     
-    int JDefend (AgentEnvironment env) {
-       return 0; 
-    }
+    //int JDefend (AgentEnvironment env) {
+
+       //return 0; 
+    //}
 }
 
     
