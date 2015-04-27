@@ -44,12 +44,12 @@ public class JJAgent extends Agent {
             if (inEnvironment.isBaseSouth(ours, false)) {
                 id = 0;
                 yDisplacement = -2;
-                currentJobs.add(Job.TOWARDSGOAL);
+                currentJobs.add(Job.DEFENDWITHBOMBS);
             }
             else{
                 id = 1;
                 yDisplacement = 2;
-                currentJobs.add(Job.DEFENDWITHBOMBS);
+                currentJobs.add(Job.TOWARDSGOAL);
             }
             if(inEnvironment.isBaseEast(enemy, false)){
                 xDisplacement = 2;
