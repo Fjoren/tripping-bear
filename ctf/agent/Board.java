@@ -9,7 +9,7 @@ import java.io.*;
 
 import ctf.common.AgentAction;
             
-private class Board {
+public class Board {
 
     private class Coordinate {
         int x;
