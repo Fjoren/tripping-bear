@@ -5,7 +5,7 @@ import ctf.agent.Agent;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Enumeration;
-import java.io.*;
+import java.lang.Object;
 
 import ctf.common.AgentAction;
             
@@ -18,11 +18,19 @@ public class Board {
             x = _x;
             y = _y;
         }
+        @Override
         public boolean equals(Object o) {
-            if (o instanceof Coordinate && x == ((Coordinate)o).x && y == ((Coordinate)o).y)
+            if (x == ((Coordinate)o).x && y == ((Coordinate)o).y)
                 return true;
             else
                 return false;
+        }
+        @Override
+        public int hashCode() {
+            return (int)Math.pow(13,7) + x + 1000*y;
+        }
+        public String toString() {
+            return "" + x + " " + y;
         }
     }
 
@@ -39,19 +47,25 @@ public class Board {
         }
 
         void update(Hashtable<String,Boolean> options) {
-            for (Enumeration<String> e = options.keys(); e.hasMoreElements();) {
-                Object temp = e.nextElement();
-                flags.put((String)temp,options.get((String)temp));
-            }
+            if (options.size() > 0)
+                for (Enumeration<String> e = options.keys(); e.hasMoreElements();) {
+                    Object temp = e.nextElement();
+                    flags.put((String)temp,options.get((String)temp));
+                }
         }
     }
 
     Hashtable<Coordinate,BoardTile> board;
     int size = -1;
     Boolean complete = false;
+    Coordinate test;
 
     Board() {
         board = new Hashtable<Coordinate,BoardTile>();
+        addBoardTile(-2,-2);
+        addBoardTile(-2,2);
+        addBoardTile(2,-2);
+        addBoardTile(2,2);
     }
 
     void addBoardTile(int x, int y, Hashtable<String, Boolean> hash) {
@@ -68,15 +82,11 @@ public class Board {
 
     void updateMap(int x, int y, AgentEnvironment env) {
         BoardTile current = board.get(new Coordinate(x,y));
-        //Shouldn't ever occur
-        if (current == null) {
-            addBoardTile(x,y,new BoardTile());
-        }
         //Check update current tile
         Hashtable<String,Boolean> upd = new Hashtable<String,Boolean>();
         if (env.isBaseNorth(env.OUR_TEAM,false))
             upd.put("baseNorth",true);
-        if (env.isBaseSouth(env.OUR_TEAM,true))
+        if (env.isBaseSouth(env.OUR_TEAM,false))
             upd.put("baseSouth",true);
         current.update(upd);
         //Add surrounding tiles
