@@ -303,6 +303,7 @@ public class JJAgent extends Agent {
                 return bomb;    
             }
         }
+        return AgentAction.DO_NOTHING
     }
 
     public int random(AgentEnvironment inEnvironment){
