@@ -69,7 +69,7 @@ public class JJAgent extends Agent {
         boolean obstWest = inEnvironment.isObstacleWestImmediate() && (history.get(getLastArrayList(history)) == 2);
         //south east
         if(id == 1){
-            if(inEnvironment.isBaseNorth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleSouthImmediate(){
+            if(inEnvironment.isBaseNorth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleSouthImmediate()){
                 yDisplacement = 2;
                 if(inEnvironment.isBaseEast(enemy, false)){
                     xDisplacement = 2;
@@ -81,7 +81,7 @@ public class JJAgent extends Agent {
             }
         }   
         else{
-            if(inEnvironment.isBaseSouth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleNorthImmediate(){
+            if(inEnvironment.isBaseSouth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleNorthImmediate()){
                 yDisplacement = -2;
                 if(inEnvironment.isBaseEast(enemy, false)){
                     xDisplacement = 2;
