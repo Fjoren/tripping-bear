@@ -145,8 +145,6 @@ public class Board {
             upd.put("blocked",true);
         board.get(new Coordinate(x-1,y)).update(upd);
         upd.clear();
-        for (Enumeration<Coordinate> e = board.keys(); e.hasMoreElements();)
-            System.out.println((counter++) + ":" + e.nextElement());
     }
 
     void placeBomb(int x, int y) {
