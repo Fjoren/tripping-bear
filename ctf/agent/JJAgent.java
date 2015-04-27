@@ -41,7 +41,7 @@ public class JJAgent extends Agent {
         if (firstMove) {
             currentJobs.add(Job.MAPPING);
             currentJobs.add(Job.TOWARDSGOAL);
-            if (inEnvironment.isBaseSouth(AgentEnvironment.OUR_TEAM, false)) {
+            if (inEnvironment.isBaseSouth(ours, false)) {
                 id = 0;
                 yDisplacement = -2;
             }
@@ -49,7 +49,7 @@ public class JJAgent extends Agent {
                 id = 1;
                 yDisplacement = 2;
             }
-            if(inEnvironment.isBaseEast(AgentEnvironment.ENEMY_TEAM, false)){
+            if(inEnvironment.isBaseEast(enemy, false)){
                 xDisplacement = -2;
             }
             else{
@@ -57,6 +57,7 @@ public class JJAgent extends Agent {
             }
             firstMove = false;
         }
+        board = new Board();
 
         boolean obstNorth = inEnvironment.isObstacleNorthImmediate();
         boolean obstSouth = inEnvironment.isObstacleSouthImmediate();
@@ -65,6 +66,8 @@ public class JJAgent extends Agent {
 
         //Non Final Jobs
         if (currentJobs.contains(Job.MAPPING)) {
+            System.out.println(xDisplacement);
+            System.out.println(yDisplacement);
             board.updateMap(xDisplacement, yDisplacement, inEnvironment);
         }
 
@@ -126,31 +129,31 @@ public class JJAgent extends Agent {
         if( !inEnvironment.hasFlag() ) {
             // make goal the enemy flag
             goalNorth = inEnvironment.isFlagNorth( 
-                inEnvironment.ENEMY_TEAM, false );
+                enemy, false );
         
             goalSouth = inEnvironment.isFlagSouth( 
-                inEnvironment.ENEMY_TEAM, false );
+                enemy, false );
         
             goalEast = inEnvironment.isFlagEast( 
-                inEnvironment.ENEMY_TEAM, false );
+                enemy, false );
         
             goalWest = inEnvironment.isFlagWest( 
-                inEnvironment.ENEMY_TEAM, false );
+                enemy, false );
             }
         else {
             // we have enemy flag.
             // make goal our base
             goalNorth = inEnvironment.isBaseNorth( 
-                inEnvironment.OUR_TEAM, false );
+                ours, false );
         
             goalSouth = inEnvironment.isBaseSouth( 
-                inEnvironment.OUR_TEAM, false );
+                ours, false );
         
             goalEast = inEnvironment.isBaseEast( 
-                inEnvironment.OUR_TEAM, false );
+                ours, false );
         
             goalWest = inEnvironment.isBaseWest( 
-                inEnvironment.OUR_TEAM, false );
+                ours, false );
             }
         
         // if goal both north and east
@@ -330,55 +333,53 @@ public class JJAgent extends Agent {
         if(!bombLastMove){
             return bomb;
         }
-        else if (inEnvironment.isBaseSouth(OUR_TEAM,true)){
-            if(inEnvironment.isBaseEast(ENEMY_TEAM, false) && !obstEast){
+        else if (inEnvironment.isBaseSouth(ours,true)){
+            if(inEnvironment.isBaseEast(enemy, false) && !obstEast){
                 return east;
             }
             else if(!obstWest)
                 return west;
         }
-        else if(inEnvironment.isBaseNorth(OUR_TEAM, true)){
-            if(inEnvironment.isBaseEast(ENEMY_TEAM, false && !obstEast)){
+        else if(inEnvironment.isBaseNorth(ours, true)){
+            if(inEnvironment.isBaseEast(enemy, false && !obstEast)){
                 return east;
             }
             else if(!obstWest)
                 return west;
         }
-        else if(inEnvironment.isBaseEast(OUR_TEAM, true)){
+        else if(inEnvironment.isBaseEast(ours, true)){
             if(!obstSouth)
                 return south;
             else if(!obstNorth)
                 return north;
         }
-        else if(inEnvironment.isBaseWest(OUR_TEAM, true)){
+        else if(inEnvironment.isBaseWest(ours, true)){
             if(!obstSouth)
                 return south;
             else if(!obstNorth)
                 return north;
         }
-        else if(inEnvironment.isBaseSouth(OUR_TEAM, false)){
+        else if(inEnvironment.isBaseSouth(ours, false)){
             if(!obstSouth)
                     return south;
-            else if(inEnvironment.isBaseEast(OUR_TEAM, false) && !obstEast){
+            else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
                 return east;
             }
-            else if(inEnvironment.isBaseWest(OUR_TEAM, false) && !obstWest){
+            else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
                 return west;
             }
         }
-        else if(inEnvironment.isBaseNorth(OUR_TEAM, false)){
+        else if(inEnvironment.isBaseNorth(ours, false)){
             if(!obstNorth)
                     return north;
-            else if(inEnvironment.isBaseEast(OUR_TEAM, false) && !obstEast){
+            else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
                     return east;
             }
-            else if(inEnvironment.isBaseWest(OUR_TEAM, false) && !obstWest){
+            else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
                     return west;
             }
         }
-        else{
             return nothing;
-        }
     }
 
 }
