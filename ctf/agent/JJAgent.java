@@ -63,10 +63,10 @@ public class JJAgent extends Agent {
             System.out.println(id);
         }
 
-        boolean obstNorth = inEnvironment.isObstacleNorthImmediate() && (history.get(getLastArrayList(history)) == 1);
-        boolean obstSouth = inEnvironment.isObstacleSouthImmediate() && (history.get(getLastArrayList(history)) == 0);
-        boolean obstEast = inEnvironment.isObstacleEastImmediate() && (history.get(getLastArrayList(history)) == 3);
-        boolean obstWest = inEnvironment.isObstacleWestImmediate() && (history.get(getLastArrayList(history)) == 2);
+        boolean obstNorth = inEnvironment.isObstacleNorthImmediate(); //&& (history.get(getLastArrayList(history)) == 1);
+        boolean obstSouth = inEnvironment.isObstacleSouthImmediate(); //&& (history.get(getLastArrayList(history)) == 0);
+        boolean obstEast = inEnvironment.isObstacleEastImmediate(); //&& (history.get(getLastArrayList(history)) == 3);
+        boolean obstWest = inEnvironment.isObstacleWestImmediate(); //&& (history.get(getLastArrayList(history)) == 2);
         //south east
         if(id == 1){
             if(inEnvironment.isBaseNorth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleSouthImmediate()){
