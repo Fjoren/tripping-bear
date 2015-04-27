@@ -32,6 +32,8 @@ public class JJAgent extends Agent {
     int step = -1;
     boolean bombLastMove = false; 
     int move;
+    int ours = AgentEnvironment.OUR_TEAM;
+    int enemy = AgentEnvironment.ENEMY_TEAM;
     //top one gets size
     //both are constantly mapping (updates the map) 
     //
