@@ -59,6 +59,18 @@ public class Board {
                     return true;
             return false;
         }
+
+        boolean flagRow () {
+            if (flags.containsKey("baseNorth") && flags.get("baseNorth"))
+                return false;
+            else if (flags.containsKey("baseNorth") && !flags.get("baseNorth"))
+                return true;
+            if (flags.containsKey("baseSouth") && flags.get("baseSouth"))
+                return false;
+            else if (flags.containsKey("baseSouth") && !flags.get("baseSouth"))
+                return true;
+            return false;
+        }
     }
 
     Hashtable<Coordinate,BoardTile> board;
@@ -103,17 +115,25 @@ public class Board {
     }
 
     void updateMap(int x, int y, AgentEnvironment env) {
+<<<<<<< Updated upstream
         //System.out.println(" " + x +" " + y);
         int counter = 0;
         //for (Enumeration<Coordinate> e = board.keys(); e.hasMoreElements();)
         //    System.out.println((counter++) + ":" + e.nextElement());
+=======
+        int counter = 0;
+>>>>>>> Stashed changes
         BoardTile current = board.get(new Coordinate(x,y));
         //Check update current tile
         Hashtable<String,Boolean> upd = new Hashtable<String,Boolean>();
         if (env.isBaseNorth(env.OUR_TEAM,false))
             upd.put("baseNorth",true);
+        else
+            upd.put("baseNorth", false);
         if (env.isBaseSouth(env.OUR_TEAM,false))
             upd.put("baseSouth",true);
+        else
+            upd.put("baseSouth",false);
         current.update(upd);
         //Add surrounding tiles
         upd.clear();
@@ -145,6 +165,8 @@ public class Board {
             upd.put("blocked",true);
         board.get(new Coordinate(x-1,y)).update(upd);
         upd.clear();
+        if (size == -1)
+            normalize();
     }
 
     void placeBomb(int x, int y) {
@@ -156,7 +178,25 @@ public class Board {
     }
 
     void normalize() {
-    
+        boolean PFR = false;
+        Coordinate pCoord = null;
+        Coordinate nCoord = null;
+        boolean NFR = false;
+        for (Enumeration<Coordinate> e = board.keys(); e.hasMoreElements();) {
+            Coordinate temp = e.nextElement();
+            if (temp.y > 0 && board.get(temp).flagRow()) {
+                PFR = true;
+                pCoord = temp;
+            }
+            if (temp.y < 0 && board.get(temp).flagRow()) {
+                NFR = true;
+                nCoord = temp;
+            }
+        }
+        if (PFR && NFR) {
+            size = pCoord.y-1+(-(nCoord.y)+1)+1;
+            System.out.println(size + "\n\n\n\n\n\n\n\n\n\n");
+        }
     }
 
     void completed() {complete = true;}

@@ -104,6 +104,17 @@ public class JJAgent extends Agent {
            board.updateMap(xDisplacement, yDisplacement, inEnvironment);
         }
 
+        boolean[] obstacles = new boolean[] {obstNorth, obstSouth, obstEast, obstWest};
+        int openings = 4;
+        for (int i = 0; i < 4; i++){
+            if (obstacles[i])
+                openings--;
+        }
+        if (openings == 1) {
+            System.out.println("DEADEND");
+            board.setDeadEnd(xDisplacement,yDisplacement);
+        }
+
         //Final Jobs  
         if(currentJobs.contains(Job.DEFENDWITHBOMBS)){
             move = defendWithBombs(inEnvironment, obstNorth, obstSouth, obstEast, obstWest);
