@@ -12,7 +12,7 @@ enum Job {MAPPING, RANDOM_MOVES, FIND_MAP_SIZE, GUARDING, ATTACKING, TOWARDSGOAL
 //Jeffrey Jennifer Agent
 public class JJAgent extends Agent {
     
-    static Board board;
+    static Board board = new Board();
     //which one is which
     int id;
     //this instaniazies it 
@@ -57,7 +57,6 @@ public class JJAgent extends Agent {
             }
             firstMove = false;
         }
-        board = new Board();
 
         boolean obstNorth = inEnvironment.isObstacleNorthImmediate() && (history.get(getLastArrayList(history)) == 1);
         boolean obstSouth = inEnvironment.isObstacleSouthImmediate() && (history.get(getLastArrayList(history)) == 0);
