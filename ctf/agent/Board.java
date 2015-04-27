@@ -93,6 +93,8 @@ public class Board {
     }
 
     boolean isDeadEnd(int x, int y) {
+        if (board.get(new Coordinate(x,y)) == null)
+            return false;
         return board.get(new Coordinate(x,y)).deadEnd();
     }
 
