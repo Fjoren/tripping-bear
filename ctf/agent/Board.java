@@ -97,7 +97,7 @@ public class Board {
     }
 
     int[] pathToFlag(int x, int y) {
-        
+       return new int[] {}; 
     }
 
     void updateMap(int x, int y, AgentEnvironment env) {
