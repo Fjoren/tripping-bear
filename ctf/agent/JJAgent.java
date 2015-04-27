@@ -34,6 +34,7 @@ public class JJAgent extends Agent {
     int move;
     int ours = AgentEnvironment.OUR_TEAM;
     int enemy = AgentEnvironment.ENEMY_TEAM;
+    boolean eastBase = false; //our base
     //top one gets size
     //both are constantly mapping (updates the map) 
     //
@@ -54,6 +55,7 @@ public class JJAgent extends Agent {
             }
             else{
                 xDisplacement = -2;
+                eastBase = true;
             }
             firstMove = false;
             System.out.println(inEnvironment.isObstacleNorthImmediate());
@@ -61,16 +63,40 @@ public class JJAgent extends Agent {
             System.out.println(id);
         }
 
-        boolean obstNorth = inEnvironment.isObstacleNorthImmediate();
-        boolean obstSouth = inEnvironment.isObstacleSouthImmediate();
-        boolean obstEast = inEnvironment.isObstacleEastImmediate();
-        boolean obstWest = inEnvironment.isObstacleWestImmediate();
-
+        boolean obstNorth = inEnvironment.isObstacleNorthImmediate() && (history.get(getLastArrayList(history)) == 1);
+        boolean obstSouth = inEnvironment.isObstacleSouthImmediate() && (history.get(getLastArrayList(history)) == 0);
+        boolean obstEast = inEnvironment.isObstacleEastImmediate() && (history.get(getLastArrayList(history)) == 3);
+        boolean obstWest = inEnvironment.isObstacleWestImmediate() && (history.get(getLastArrayList(history)) == 2);
+        //south east
+        if(id == 1){
+            if(inEnvironment.isBaseNorth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleSouthImmediate(){
+                yDisplacement = 2;
+                if(inEnvironment.isBaseEast(enemy, false)){
+                    xDisplacement = 2;
+                }
+                else{
+                    xDisplacement = -2;
+                    eastBase = true;
+                }
+            }
+        }   
+        else{
+            if(inEnvironment.isBaseSouth(ours, false) && !inEnvironment.isBaseWest(ours, false) && !inEnvironment.isBaseEast(ours, false) && inEnvironment.isObstacleNorthImmediate(){
+                yDisplacement = -2;
+                if(inEnvironment.isBaseEast(enemy, false)){
+                    xDisplacement = 2;
+                }
+                else{
+                    xDisplacement = -2;
+                    eastBase = true;
+                }
+            }
+        }
         //Non Final Jobs
         if (currentJobs.contains(Job.MAPPING)) {
-            System.out.println(xDisplacement);
-            System.out.println(yDisplacement);
-            board.updateMap(xDisplacement, yDisplacement, inEnvironment);
+           System.out.println(xDisplacement);
+           System.out.println(yDisplacement);
+           board.updateMap(xDisplacement, yDisplacement, inEnvironment);
         }
 
         //Final Jobs  
@@ -383,6 +409,13 @@ public class JJAgent extends Agent {
             }
         }
         return nothing;
+    }
+
+    public int getLastArrayList(ArrayList<Integer> arrayList){
+        if (arrayList != null && !arrayList.isEmpty()) {
+            return arrayList.get(arrayList.size()-1);
+        }
+        return -13232;
     }
 
 }
