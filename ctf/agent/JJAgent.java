@@ -579,7 +579,7 @@ public class JJAgent extends Agent {
     TreeNode<AgentAction> current = new TreeNode<AgentAction>(null,null);
     
     int JDefend (AgentEnvironment env) {
-        
+       return 0; 
     }
 }
 
