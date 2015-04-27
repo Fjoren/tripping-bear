@@ -115,12 +115,10 @@ public class Board {
     }
 
     void updateMap(int x, int y, AgentEnvironment env) {
-<<<<<<< Updated upstream
         //System.out.println(" " + x +" " + y);
         int counter = 0;
         //for (Enumeration<Coordinate> e = board.keys(); e.hasMoreElements();)
         //    System.out.println((counter++) + ":" + e.nextElement());
-=======
         int counter = 0;
 >>>>>>> Stashed changes
         BoardTile current = board.get(new Coordinate(x,y));

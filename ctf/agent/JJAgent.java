@@ -43,23 +43,13 @@ public class JJAgent extends Agent {
         if (firstMove) {
             currentJobs.add(Job.MAPPING);
             if (inEnvironment.isBaseSouth(ours, false)) {
-<<<<<<< HEAD
-                id = NORTH;
+                id = Label.NORTH;
                 yDisplacement = 10;
                 currentJobs.add(Job.DEFENDWITHBOMBS);
             }
             else{
-                id = SOUTH;
-                yDisplacement = 1;
-=======
-                id = Label.NORTH;
-                yDisplacement = -2;
-                currentJobs.add(Job.DEFENDWITHBOMBS);
-            }
-            else{
                 id = Label.SOUTH;
-                yDisplacement = 2;
->>>>>>> FETCH_HEAD
+                yDisplacement = 1;
                 currentJobs.add(Job.TOWARDSGOAL);
             }
             if(inEnvironment.isBaseEast(enemy, false)){
@@ -560,6 +550,23 @@ public class JJAgent extends Agent {
         return nothing;
     }
 
+<<<<<<< HEAD
+=======
+    private static class TreeNode<T> {
+        private T data;
+        private Node<T> parent;
+        private List<Node<T>> children;
+
+        TreeNode(T data,Node<T> parent) {
+            this.data = data;
+            this.parent = parent;
+            parent.children.add(this);
+            children = new LinkedList<Node<T>>();
+        }
+    }
+
+    TreeNode<AgentAction> current;
+>>>>>>> FETCH_HEAD
     public int oppositeMove(int move){
         if(move == 0)
             return 1;
@@ -572,11 +579,14 @@ public class JJAgent extends Agent {
         else 
             return -1;
     }
+<<<<<<< HEAD
     
     private static class TreeNode<T> {
         private T data;
         private TreeNode<T> parent;
         private List<TreeNode<T>> children;
+=======
+>>>>>>> FETCH_HEAD
 
         TreeNode(T data,TreeNode<T> parent) {
             this.data = data;
