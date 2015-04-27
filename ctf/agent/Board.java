@@ -119,8 +119,6 @@ public class Board {
         int counter = 0;
         //for (Enumeration<Coordinate> e = board.keys(); e.hasMoreElements();)
         //    System.out.println((counter++) + ":" + e.nextElement());
-        int counter = 0;
->>>>>>> Stashed changes
         BoardTile current = board.get(new Coordinate(x,y));
         //Check update current tile
         Hashtable<String,Boolean> upd = new Hashtable<String,Boolean>();
