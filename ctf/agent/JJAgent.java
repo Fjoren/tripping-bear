@@ -328,7 +328,10 @@ public class JJAgent extends Agent {
 
         // if the goal is east only, and we're not blocked
         if( goalEast) {
-            if( !obstEast ) {   
+            if(inEnvironment.hasFlag() && !obstSouth){
+                return south;        
+            }
+            else if( !obstEast ) {   
                 return AgentAction.MOVE_EAST;
                 }
             else if( !obstNorth ) {
@@ -347,14 +350,17 @@ public class JJAgent extends Agent {
         
         // if the goal is west only, and we're not blocked  
         if( goalWest) {
-            if( !obstWest ) {
+            if(inEnvironment.hasFlag() && !obstSouth){
+                return south;
+            }    
+            else if( !obstWest ) {
                 return AgentAction.MOVE_WEST;
                 }
-            else if(!obstSouth ) {
-                return AgentAction.MOVE_SOUTH;
-                }
-            else if(!obstNorth){
+            else if(!obstNorth ) {
                 return AgentAction.MOVE_NORTH;
+                }
+            else if(!obstSouth){
+                return AgentAction.MOVE_SOUTH;
                 }
             else if(!obstEast){
                 return AgentAction.MOVE_EAST;
