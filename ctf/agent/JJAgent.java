@@ -343,13 +343,13 @@ public class JJAgent extends Agent {
                 return west;
         }
         else if(inEnvironment.isBaseEast(OUR_TEAM, true)){
-            if(!obstSouth))
+            if(!obstSouth)
                 return south;
             else if(!obstNorth)
                 return north;
         }
         else if(inEnvironment.isBaseWest(OUR_TEAM, true)){
-            if(!obstSouth))
+            if(!obstSouth)
                 return south;
             else if(!obstNorth)
                 return north;
@@ -365,7 +365,7 @@ public class JJAgent extends Agent {
             }
         }
         else if(inEnvironment.isBaseNorth(OUR_TEAM, false)){
-            if(!obstNorth))
+            if(!obstNorth)
                     return north;
             else if(inEnvironment.isBaseEast(OUR_TEAM, false) && !obstEast){
                     return east;
