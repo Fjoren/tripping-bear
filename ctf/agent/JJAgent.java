@@ -44,11 +44,7 @@ public class JJAgent extends Agent {
             if (inEnvironment.isBaseSouth(ours, false)) {
                 id = 0;
                 yDisplacement = -2;
-<<<<<<< HEAD
                 currentJobs.add(Job.TOWARDSGOAL);
-=======
-                board = new Board();
->>>>>>> origin/master
             }
             else{
                 id = 1;
@@ -366,73 +362,111 @@ public class JJAgent extends Agent {
     }
 
     public int defendWithBombs(AgentEnvironment inEnvironment, boolean obstNorth, boolean obstSouth, boolean obstEast, boolean obstWest){
-        if(!bombLastMove){
-            return bomb;
-        }
-        else if (inEnvironment.isBaseSouth(ours,true)){
-            if(inEnvironment.isBaseEast(enemy, false) && !obstEast){
-                return east;
+        if(id == 0) {   
+            if(!bombLastMove){
+                return bomb;
             }
-            else if(!obstWest)
-                return west;
-        }
-        else if(inEnvironment.isBaseNorth(ours, true)){
-            if(inEnvironment.isBaseEast(enemy, false && !obstEast)){
-                return east;
-            }
-            else if(!obstWest)
-                return west;
-        }
-        else if(inEnvironment.isBaseEast(ours, true)){
-            if(!obstSouth && id == 0)
-                return south;
-            else if(!obstNorth && id == 1)
-                return north;
-        }
-        else if(inEnvironment.isBaseWest(ours, true)){
-            if(!obstSouth && id == 0)
-                return south;
-            else if(!obstNorth && id == 1)
-                return north;
-        }
-        else if(inEnvironment.isBaseSouth(ours, false)){
-            if(!obstSouth)
-                    return south;
-            else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
-                return east;
-            }
-            else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
-                return west;
-            }
-        }
-        else if(inEnvironment.isBaseNorth(ours, false)){
-            if(!obstNorth)
-                    return north;
-            else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
+            else if (inEnvironment.isBaseSouth(ours,true)){
+                if(inEnvironment.isBaseEast(enemy, false) && !obstEast){
                     return east;
-            }
-            else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
+                }
+                else if(!obstWest)
                     return west;
+            }
+            else if(inEnvironment.isBaseNorth(ours, true)){
+                if(inEnvironment.isBaseEast(enemy, false && !obstEast)){
+                    return east;
+                }
+                else if(!obstWest)
+                    return west;
+            }
+            else if(inEnvironment.isBaseEast(ours, true)){
+                if(!obstSouth && id == 0)
+                    return south;
+                else if(!obstNorth && id == 1)
+                    return north;
+            }
+            else if(inEnvironment.isBaseWest(ours, true)){
+                if(!obstSouth && id == 0)
+                    return south;
+                else if(!obstNorth && id == 1)
+                    return north;
+            }
+            else if(inEnvironment.isBaseSouth(ours, false)){
+                if(!obstSouth)
+                        return south;
+                else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
+                    return east;
+                }
+                else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
+                    return west;
+                }
+            }
+            else if(inEnvironment.isBaseNorth(ours, false)){
+                if(!obstNorth)
+                        return north;
+                else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
+                        return east;
+                }
+                else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
+                        return west;
+                }
+            }
+        }
+        else if(id == 1) {   
+            if(!bombLastMove){
+                return bomb;
+            }
+            else if (inEnvironment.isBaseSouth(ours,true)){
+                if(inEnvironment.isBaseEast(enemy, false) && !obstEast){
+                    return east;
+                }
+                else if(!obstWest)
+                    return west;
+            }
+            else if(inEnvironment.isBaseNorth(ours, true)){
+                if(inEnvironment.isBaseEast(enemy, false && !obstEast)){
+                    return east;
+                }
+                else if(!obstWest)
+                    return west;
+            }
+            else if(inEnvironment.isBaseEast(ours, true)){
+                if(!obstSouth && id == 0)
+                    return south;
+                else if(!obstNorth && id == 1)
+                    return north;
+            }
+            else if(inEnvironment.isBaseWest(ours, true)){
+                if(!obstSouth && id == 0)
+                    return south;
+                else if(!obstNorth && id == 1)
+                    return north;
+            }
+            else if(inEnvironment.isBaseSouth(ours, false)){
+                if(!obstSouth)
+                        return south;
+                else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
+                    return east;
+                }
+                else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
+                    return west;
+                }
+            }
+            else if(inEnvironment.isBaseNorth(ours, false)){
+                if(!obstNorth)
+                        return north;
+                else if(inEnvironment.isBaseEast(ours, false) && !obstEast){
+                        return east;
+                }
+                else if(inEnvironment.isBaseWest(ours, false) && !obstWest){
+                        return west;
+                }
             }
         }
         return nothing;
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
-    // //last element in array list
-    // public int getLastArrayList(ArrayList<Integer> arrayList){
-    //     if (arrayList != null && !arrayList.isEmpty()) {
-    //         return arrayList.get(arrayList.size()-1);
-    //     }
-    //     return 0;
-    // }
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 
 }
 
