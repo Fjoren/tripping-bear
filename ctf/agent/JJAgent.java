@@ -7,7 +7,7 @@ import java.util.Hashtable;
 
 import ctf.common.AgentAction;
 //this is the jobs you can have
-enum Job {MAPPING, RANDOM_MOVES, FIND_MAP_SIZE, GUARDING, ATTACKING, TOWARDSGOAL}
+enum Job {MAPPING, RANDOM_MOVES, FIND_MAP_SIZE, GUARDING, ATTACKING, TOWARDSGOAL, DEFENDWITHBOMBS}
 
 //Jeffrey Jennifer Agent
 public class JJAgent extends Agent {
@@ -38,21 +38,28 @@ public class JJAgent extends Agent {
     public int getMove(AgentEnvironment inEnvironment) {
         if (firstMove) {
             currentJobs.add(Job.MAPPING);
-            if (inEnvironment.isBaseSouth(AgentEnvironment.OUR_TEAM, false))
+            currentJobs.add(Job.TOWARDSGOAL);
+            if (inEnvironment.isBaseSouth(AgentEnvironment.OUR_TEAM, false)) {
                 id = 0;
-            if (inEnvironment.isBaseNorth(AgentEnvironment.OUR_TEAM, false))
-                id = 1;
-            if (id == 0) {
-                board = new Board();
-                currentJobs.add(Job.TOWARDSGOAL);
-                //path = new int[] {left,down,down,down,down,right,bomb,bomb,left,bomb,down,bomb,down,bomb,down,bomb,down,left,bomb,left,bomb,left,bomb,left,bomb,down,bomb,right,bomb,right, bomb};
+                yDisplacement = -2;
             }
-            if (id == 1) {
-                currentJobs.add(Job.TOWARDSGOAL);
-                //path = new int[] {left,left,left,left,left,left,left,left,left,up,up,up,up,down,down,down,down,right,right,right,right,right,right,right,right,right,up,up,up,up};
+            else{
+                id = 1;
+                yDisplacement = 2;
+            }
+            if(inEnvironment.isBaseEast(AgentEnvironment.ENEMY_TEAM, false)){
+                xDisplacement = -2;
+            }
+            else{
+                xDisplacement = 2;
             }
             firstMove = false;
         }
+
+        boolean obstNorth = inEnvironment.isObstacleNorthImmediate();
+        boolean obstSouth = inEnvironment.isObstacleSouthImmediate();
+        boolean obstEast = inEnvironment.isObstacleEastImmediate();
+        boolean obstWest = inEnvironment.isObstacleWestImmediate();
 
         //Non Final Jobs
         if (currentJobs.contains(Job.MAPPING)) {
@@ -60,8 +67,11 @@ public class JJAgent extends Agent {
         }
 
         //Final Jobs  
+        if(currentJobs.contains(Job.DEFENDWITHBOMBS)){
+            move = defendWithBombs(inEnvironment, obstNorth, obstSouth, obstEast, obstWest);
+        }
         if(currentJobs.contains(Job.TOWARDSGOAL)) {
-            move = towardsGoal(inEnvironment); 
+            move = towardsGoal(inEnvironment, obstNorth, obstSouth, obstEast, obstWest); 
         }
         if(currentJobs.contains(Job.RANDOM_MOVES)){
             move = random(inEnvironment);
@@ -102,7 +112,7 @@ public class JJAgent extends Agent {
     }
 
     //if tbe map is unknown, just go towards the goal and add to the map
-    public int towardsGoal(AgentEnvironment inEnvironment){
+    public int towardsGoal(AgentEnvironment inEnvironment, boolean obstNorth, boolean obstSouth, boolean obstEast, boolean obstWest){
         // booleans describing direction of goal
         // goal is either enemy flag, or our base
         boolean goalNorth;
@@ -141,15 +151,6 @@ public class JJAgent extends Agent {
                 inEnvironment.OUR_TEAM, false );
             }
         
-        // now we have direction booleans for our goal  
-        
-        // check for immediate obstacles blocking our path      
-            //needs to check if there is a bomb or agent there
-        boolean obstNorth = inEnvironment.isObstacleNorthImmediate();
-        boolean obstSouth = inEnvironment.isObstacleSouthImmediate();
-        boolean obstEast = inEnvironment.isObstacleEastImmediate();
-        boolean obstWest = inEnvironment.isObstacleWestImmediate();
-            
         // if goal both north and east
         if( goalNorth && goalEast ) {
             // pick north or east for move with 50/50 chance
@@ -321,7 +322,63 @@ public class JJAgent extends Agent {
         else {
             return AgentAction.MOVE_WEST;
             }   
+    }
+
+    public int defendWithBombs(AgentEnvironment inEnvironment, boolean obstNorth, boolean obstSouth, boolean obstEast, boolean obstWest){
+        if(!bombLastMove){
+            return bomb;
         }
+        else if (inEnvironment.isBaseSouth(OUR_TEAM,true)){
+            if(inEnvironment.isBaseEast(ENEMY_TEAM, false) && !obstEast){
+                return east;
+            }
+            else if(!obstWest)
+                return west;
+        }
+        else if(inEnvironment.isBaseNorth(OUR_TEAM, true)){
+            if(inEnvironment.isBaseEast(ENEMY_TEAM, false && !obstEast)){
+                return east;
+            }
+            else if(!obstWest)
+                return west;
+        }
+        else if(inEnvironment.isBaseEast(OUR_TEAM, true)){
+            if(!obstSouth))
+                return south;
+            else if(!obstNorth)
+                return north;
+        }
+        else if(inEnvironment.isBaseWest(OUR_TEAM, true)){
+            if(!obstSouth))
+                return south;
+            else if(!obstNorth)
+                return north;
+        }
+        else if(inEnvironment.isBaseSouth(OUR_TEAM, false)){
+            if(!obstSouth)
+                    return south;
+            else if(inEnvironment.isBaseEast(OUR_TEAM, false) && !obstEast){
+                return east;
+            }
+            else if(inEnvironment.isBaseWest(OUR_TEAM, false) && !obstWest){
+                return west;
+            }
+        }
+        else if(inEnvironment.isBaseNorth(OUR_TEAM, false)){
+            if(!obstNorth))
+                    return north;
+            else if(inEnvironment.isBaseEast(OUR_TEAM, false) && !obstEast){
+                    return east;
+            }
+            else if(inEnvironment.isBaseWest(OUR_TEAM, false) && !obstWest){
+                    return west;
+            }
+        }
+        else{
+            return nothing;
+        }
+    }
+
 }
 
     
