@@ -1,5 +1,5 @@
 4
-ctf.agent.JJAgent
+ctf.agent.jbb130130Agent
 ctf.agent.ChenSimpleAgent
 ctf.agent.RandomAgent
 ctf.agent.BomberAgent

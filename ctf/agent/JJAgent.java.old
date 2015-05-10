@@ -37,6 +37,15 @@ public class JJAgent extends Agent {
     int ours = AgentEnvironment.OUR_TEAM;
     int enemy = AgentEnvironment.ENEMY_TEAM;
     boolean eastBase = false; //our base
+    int lastPosX = -1;
+    int lastPosY = -1;
+    int secondToLastX = -1;
+    int secondToLastY = -1;
+    int thirdToLastX = -1;
+    int thirdToLastY = -1;
+    LinkedList<Integer> previousX = new LinkedList<Integer>();
+    LinkedList<Integer> previousY = new LinkedList<Integer>();
+
     //top one gets size
     //both are constantly mapping (updates the map) 
     //
@@ -49,6 +58,7 @@ public class JJAgent extends Agent {
                 id = Label.NORTH;
                 yDisplacement = 10;
                 currentJobs.add(Job.DEFENDWITHBOMBS);
+                board = new Board();
             }
             else{
                 id = Label.SOUTH;
@@ -163,6 +173,27 @@ public class JJAgent extends Agent {
         //             break;
         //         }    
         // }
+        // thirdToLastX = secondToLastX;
+        // thirdToLastY = secondToLastY;
+        // secondToLastY = lastPosY;
+        // secondToLastX = lastPosX;
+        // lastPosX = xDisplacement;
+        // lastPosY = yDisplacement;
+        // System.out.println("" + lastPosX + lastPosY + secondToLastX + secondToLastY + thirdToLastX + thirdToLastY);
+        // System.out.println("" + (xDisplacement == secondToLastX) + (yDisplacement == secondToLastY) + (lastPosX == thirdToLastX) + (lastPosY == thirdToLastY));
+        // System.out.println("" + yDisplacement + secondToLastY);
+        // if(xDisplacement == secondToLastX && yDisplacement == secondToLastY && lastPosX == thirdToLastX && lastPosY == thirdToLastY){
+        //     System.out.println("Deadend x" + lastPosX + "deadend y" + lastPosY);
+        //     board.setDeadEnd(lastPosX, lastPosY);
+        // }
+        previousX.addFirst(xDisplacement);
+        previousY.addFirst(yDisplacement);
+        Object[] preXArray = previousX.toArray();
+        Object[] preYArray = previousY.toArray();
+
+        if(preXArray.length > 6 && preYArray.length > 6 && preXArray[0] == preXArray[2] && preYArray[0] == preYArray[2] && preXArray[1] == preXArray[3] && preYArray[1] == preYArray[3]){
+            board.setDeadEnd((Integer)preXArray[1], (Integer)preYArray[1]);
+        }
         switch (move){
             case 0:
                 yDisplacement++;
@@ -185,6 +216,38 @@ public class JJAgent extends Agent {
                 break;
             }
 
+        // if ((history.size() > 6) && (history.getLast() == history.get(history.size() - 3)) &&  (history.get(history.size()-2) == history.get(history.size() - 4)) && (history.getLast() != history.get(history.size()-2))){
+        //     int moveSecondToLast = history.get(history.size() - 2);
+        //     int moveLast = history.getLast();
+        //     int deadEndSecondX = xDisplacement;
+        //     int deadEndSecondY = yDisplacement;
+        //     int deadEndLastX = xDisplacement;
+        //     int deadEndLastY = yDisplacement;
+        //     switch(moveSecondToLast){
+        //         case 0: deadEndSecondY --;
+        //         break;
+        //         case 1: deadEndSecondY++;
+        //         break;
+        //         case 2: deadEndSecondX--;
+        //         break;
+        //         case 3: deadEndSecondX++;
+        //         default: 
+        //         break;
+        //     }
+        //     switch(moveLast){
+        //         case 0: deadEndLastY --;
+        //         break;
+        //         case 1: deadEndLastY++;
+        //         break;
+        //         case 2: deadEndLastX--;
+        //         break;
+        //         case 3: deadEndLastX++;
+        //         default: 
+        //         break;
+        //     }
+
+        //     board.setDeadEnd(deadEndSecondX, deadEndSecondY);
+        // }
         if(move == bomb)
             bombLastMove = true;
         else 
@@ -265,9 +328,6 @@ public class JJAgent extends Agent {
             else if(!obstSouth){
                 return AgentAction.MOVE_SOUTH;
             }
-            else{
-                return bomb;    
-            }
         }
             
         // if goal both north and west  
@@ -290,9 +350,6 @@ public class JJAgent extends Agent {
             else if(!obstSouth){
                 return AgentAction.MOVE_SOUTH;
                 }
-            else{
-                return bomb;    
-            }
         }
         
         // do same for southeast and southwest as for north versions    
@@ -309,9 +366,6 @@ public class JJAgent extends Agent {
             else if(!obstNorth){
                 return AgentAction.MOVE_NORTH;
                 }
-            else{
-                return bomb;    
-            }
         }
                 
         if( goalSouth && goalWest) {
@@ -327,9 +381,6 @@ public class JJAgent extends Agent {
             else if(!obstNorth){
                 return AgentAction.MOVE_NORTH;
                 }
-            else{
-                return bomb;    
-            }
         }
 
                     // if the goal is north only, and we're not blocked
@@ -349,9 +400,6 @@ public class JJAgent extends Agent {
             else if(!obstSouth){
                 return AgentAction.MOVE_SOUTH;   
                 }
-            else{
-                return bomb;    
-            }
         }
 
 
@@ -372,9 +420,6 @@ public class JJAgent extends Agent {
             else if(!obstWest){
                 return AgentAction.MOVE_WEST;
                 }
-            else{
-                return bomb;    
-            }
         }
         
         // if the goal is west only, and we're not blocked  
@@ -394,9 +439,6 @@ public class JJAgent extends Agent {
             else if(!obstEast){
                 return AgentAction.MOVE_EAST;
                 }
-            else{
-                return bomb;    
-            }
         }   
 
         // if the goal is south only, and we're not blocked
@@ -416,9 +458,6 @@ public class JJAgent extends Agent {
                 }
             else if(!obstNorth){
                 return AgentAction.MOVE_NORTH;   
-            }
-            else{
-                return bomb;    
             }
         }
         return AgentAction.DO_NOTHING;
